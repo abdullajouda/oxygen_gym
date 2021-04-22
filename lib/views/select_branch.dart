@@ -3,9 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/constants.dart';
-import 'package:oxygen/views/register.dart';
-import 'package:oxygen/views/sign_in.dart';
 import 'package:oxygen/widgets/main_button.dart';
+
+import 'auth/register.dart';
+import 'auth/sign_in.dart';
 
 class SelectBranch extends StatefulWidget {
   @override
@@ -18,120 +19,139 @@ class _SelectBranchState extends State<SelectBranch> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          // image: ,
-          gradient: LinearGradient(
-            begin: Alignment(0.0, -1.0),
-            end: Alignment(0.0, 1.0),
-            colors: [const Color(0x00000000), const Color(0xcc000000)],
-            stops: [0.0, 1.0],
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images/logo.svg'),
-                SizedBox(
-                  height: 40,
-                ),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Step 1',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: const Color(0x99ffffff),
-                                letterSpacing: -0.24,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              'Select Branch',
-                              style: TextStyle(
-                                fontSize: 28,
-                                color: const Color(0xffffffff),
-                                letterSpacing: 0.33764708709716795,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          women = false;
-                          men = true;
-                        });
-                      },
-                      child: _branchContainer(
-                          image: 'assets/icons/Flame.svg',
-                          text: 'Men Branch',
-                          selected: men),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          men = false;
-                          women = true;
-                        });
-                      },
-                      child: _branchContainer(
-                          image: 'assets/icons/Heart.svg',
-                          text: 'Women Branch',
-                          selected: women),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: MainButton(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignIn(),));
-                        },
-                        height: 50,
-                        title: 'Log In',
-                        color: Colors.white,
-                        textColor: kPrimaryColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: MainButton(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Register(),));
-                        },
-                        height: 50,
-                        title: 'Registration',
-                      ),
-                    )
-                  ],
-                ),
-              ],
+        child: Stack(
+          children: [
+            Image.asset(
+              'assets/images/branchBackGround.png',
+              height: size.height,
+              fit: BoxFit.fitHeight,
             ),
-          ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 1.0),
+                  colors: [const Color(0x00000000), const Color(0xcc000000)],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images/logo.svg'),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Step 1',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: const Color(0x99ffffff),
+                                      letterSpacing: -0.24,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Select Branch',
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      color: const Color(0xffffffff),
+                                      letterSpacing: 0.33764708709716795,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                women = false;
+                                men = true;
+                              });
+                            },
+                            child: _branchContainer(
+                                image: 'assets/icons/Flame.svg',
+                                text: 'Men Branch',
+                                selected: men),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                men = false;
+                                women = true;
+                              });
+                            },
+                            child: _branchContainer(
+                                image: 'assets/icons/Heart.svg',
+                                text: 'Women Branch',
+                                selected: women),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: MainButton(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignIn(),
+                                    ));
+                              },
+                              height: 50,
+                              title: 'Log In',
+                              color: Colors.white,
+                              textColor: kPrimaryColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: MainButton(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Register(),
+                                    ));
+                              },
+                              height: 50,
+                              title: 'Registration',
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -140,7 +160,9 @@ class _SelectBranchState extends State<SelectBranch> {
   Widget _branchContainer({String text, String image, bool selected}) {
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        filter: selected
+            ? ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0)
+            : ImageFilter.blur(),
         child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
           height: 54,
