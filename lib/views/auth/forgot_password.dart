@@ -40,7 +40,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: MainButton(
-                    title: 'Submit',
+                    title: 'Submit', onTap: () {  },
                   ),
                 ),
                 SizedBox(

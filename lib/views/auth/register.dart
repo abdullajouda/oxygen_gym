@@ -198,7 +198,10 @@ class _RegisterState extends State<Register> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: MainButton(title: 'Registration',),
+                    child: MainButton(
+                      title: 'Registration',
+                      onTap: () {},
+                    ),
                   ),
                   SizedBox(
                     height: 25,

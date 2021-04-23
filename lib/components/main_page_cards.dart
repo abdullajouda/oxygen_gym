@@ -5,8 +5,8 @@ class MainPageCard extends StatelessWidget {
   final String title;
   final Widget icon;
   final String image;
-
-  const MainPageCard({Key key, this.icon, this.image, this.title})
+  final Widget page;
+  const MainPageCard({Key key, this.icon, this.image, this.title, this.page})
       : super(key: key);
 
   @override

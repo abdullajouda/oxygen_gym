@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'back_arrow.dart';
+import 'back_button.dart';
+import 'calender.dart';
+
 class MyAppBar extends StatelessWidget {
+  final String title;
+
+  const MyAppBar({Key key, this.title}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,25 +22,32 @@ class MyAppBar extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  child: Icon(
-                    Icons.menu,
-                    size: 30,
-                    color: Color(0xff1d3400),
-                  ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Row(
+                  children: [
+                    BackArrow(),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Back',
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: const Color(0xff67b500),
+                        letterSpacing: -0.41000000190734864,
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              SizedBox(
-                width: 20,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Workout',
+                    title,
                     style: TextStyle(
                       fontSize: 34,
                       color: const Color(0xff1d3400),
@@ -71,7 +86,26 @@ class MyAppBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showGeneralDialog(
+                    barrierDismissible: true,
+                    barrierLabel: '',
+                    barrierColor: Colors.black.withOpacity(0.1),
+                    transitionDuration: Duration(milliseconds: 300),
+                    context: context,
+                    pageBuilder: (context, anim1, anim2) {
+                      return GestureDetector(
+                          child: MyCalender());
+                    },
+                    transitionBuilder: (context, anim1, anim2, child) {
+                      return SlideTransition(
+                        position: Tween(begin: Offset(0, -1), end: Offset(0, 0))
+                            .animate(anim1),
+                        child: child,
+                      );
+                    },
+                  );
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

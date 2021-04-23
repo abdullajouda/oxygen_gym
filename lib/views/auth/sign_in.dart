@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/constants.dart';
 import 'package:oxygen/views/auth/forgot_password.dart';
-import 'package:oxygen/views/main_page.dart';
+import 'file:///C:/Users/histo/IdeaProjects/oxygen/lib/views/sidemenu_views/main_page.dart';
+import 'package:oxygen/views/root_page.dart';
 import 'package:oxygen/widgets/back_arrow.dart';
 import 'package:oxygen/widgets/back_button.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
@@ -77,6 +78,8 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
                       controller: password,
+                      obscureText: true,
+                      obscuringCharacter: '*',
                       decoration: fieldDecoration('Password'),
                     ),
                   ),
@@ -87,8 +90,7 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: MainButton(
                       onTap: () {
-
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage(),));
                       },
                       title: 'Log In',
                     ),

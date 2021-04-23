@@ -1,16 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:oxygen/components/workout_card.dart';
+import 'package:oxygen/components/doctor_card.dart';
 import 'package:oxygen/widgets/app_bar.dart';
-import 'package:oxygen/widgets/drawer.dart';
 
-class WorkOut extends StatefulWidget {
+class Doctors extends StatefulWidget {
   @override
-  _WorkOutState createState() => _WorkOutState();
+  _DoctorsState createState() => _DoctorsState();
 }
 
-class _WorkOutState extends State<WorkOut> {
+class _DoctorsState extends State<Doctors> {
   ScrollController _controller;
   double _value = 0.0;
 
@@ -39,7 +38,10 @@ class _WorkOutState extends State<WorkOut> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(child: MyAppBar(title: 'Workout',)),
+          SafeArea(
+              child: MyAppBar(
+            title: 'Doctor',
+          )),
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 60),
             child: CarouselSlider(
@@ -130,13 +132,13 @@ class _WorkOutState extends State<WorkOut> {
               controller: _controller,
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
               shrinkWrap: true,
-              itemCount: 7,
+              itemCount: 3,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: 1),
-              itemBuilder: (context, index) => WorkOutCard()
+                  crossAxisCount: 1,
+                  childAspectRatio: 2.2),
+              itemBuilder: (context, index) => DoctorCard()
             ),
           )
         ],

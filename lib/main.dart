@@ -6,6 +6,7 @@ import 'package:oxygen/services/Localization/appliction.dart';
 import 'package:oxygen/services/Localization/lang_provider.dart';
 import 'package:oxygen/services/shared_perfs_provider.dart';
 import 'package:oxygen/views/select_branch.dart';
+import 'package:oxygen/views/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,11 +31,16 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-
     return MaterialApp(
       title: 'Oxygen',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
+      theme: ThemeData().copyWith(
+          pageTransitionsTheme: PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: ZoomPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      )),
       locale: _newLocaleDelegate.newLocale,
       supportedLocales: application.supportedLocales(),
       localizationsDelegates: [
@@ -43,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         _newLocaleDelegate,
       ],
-      home: SelectBranch(),
+      home: SplashScreen(),
     );
   }
 
