@@ -4,6 +4,7 @@ import 'package:oxygen/constants.dart';
 import 'package:oxygen/views/auth/forgot_password.dart';
 import 'package:oxygen/widgets/main_button.dart';
 import 'package:oxygen/widgets/menu_button.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class ChangePassword extends StatefulWidget {
   final VoidCallback openMenu;
@@ -28,7 +29,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   onTap: widget.openMenu,
                 ),
                 Text(
-                  'Change password',
+                  'Change password'.trs(context),
                   style: TextStyle(
                     fontSize: 32,
                     color: const Color(0xff1d3400),
@@ -121,7 +122,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         // controller: password,
                         obscureText: true,
                         obscuringCharacter: '*',
-                        decoration: fieldDecoration('Old Password'),
+                        decoration: fieldDecoration('Old Password'.trs(context)),
                       ),
                     ),
                     SizedBox(
@@ -133,7 +134,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         // controller: password,
                         obscureText: true,
                         obscuringCharacter: '*',
-                        decoration: fieldDecoration('New Password'),
+                        decoration: fieldDecoration('New Password'.trs(context)),
                       ),
                     ),
                     SizedBox(
@@ -145,7 +146,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         // controller: password,
                         obscureText: true,
                         obscuringCharacter: '*',
-                        decoration: fieldDecoration('Confirm Password'),
+                        decoration: fieldDecoration('Confirm Password'.trs(context)),
                       ),
                     ),
                   ],
@@ -154,7 +155,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: MainButton(
-                  title: 'Change Password',
+                  title: 'Change Password'.trs(context),
                 ),
               ),
               SizedBox(
@@ -170,7 +171,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ));
                   },
                   child: Text(
-                    'Forget my Old password?',
+                    'Forget my Old password?'.trs(context),
                     style: TextStyle(
                       fontSize: 17,
                       color: const Color(0xff67b500),

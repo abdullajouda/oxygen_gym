@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 import '../constants.dart';
 
@@ -28,7 +29,8 @@ class ReservationCard extends StatelessWidget {
                 : type != 1
                     ? 15
                     : null,
-            right: 15,
+            right: LangProvider().getLocaleCode() == 'ar' ? null : 15,
+            left: LangProvider().getLocaleCode() == 'ar' ? 15 : null,
             child: SvgPicture.asset(
               _backImage(),
               height: type == 3
@@ -40,7 +42,8 @@ class ReservationCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            right: 25,
+            right: LangProvider().getLocaleCode() == 'ar' ? null : 25,
+            left: LangProvider().getLocaleCode() == 'ar' ? 25 : null,
             child: IconButton(
               icon: SvgPicture.asset('assets/icons/delete.svg'),
               onPressed: () {},
@@ -60,7 +63,7 @@ class ReservationCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Workout',
+                      'Workout'.trs(context),
                       style: TextStyle(
                         fontSize: 22,
                         color: const Color(0xffffffff),

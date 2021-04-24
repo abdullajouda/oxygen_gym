@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:oxygen/components/classes_card.dart';
 import 'package:oxygen/widgets/app_bar.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class Classes extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _ClassesState extends State<Classes> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(child: MyAppBar(title: 'Classes',)),
+          SafeArea(child: MyAppBar(title: 'Classes'.trs(context),)),
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 60),
             child: CarouselSlider(
@@ -113,7 +114,7 @@ class _ClassesState extends State<Classes> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  'Book an appointment',
+                  'Book an appointment'.trs(context),
                   style: TextStyle(
                     fontSize: 22,
                     color: const Color(0xff1d3400),

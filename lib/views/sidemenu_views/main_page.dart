@@ -8,6 +8,7 @@ import 'package:oxygen/views/main_page_views/doctor.dart';
 import 'package:oxygen/views/main_page_views/workout.dart';
 import 'package:oxygen/widgets/drawer.dart';
 import 'package:oxygen/widgets/menu_button.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class MainPage extends StatefulWidget {
   final VoidCallback openMenu;
@@ -71,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                     Text(
                       'Ezzdeen Al Madhoun',
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 22,
                         color: const Color(0xff273443),
                         fontWeight: FontWeight.w700,
                       ),
@@ -79,18 +80,25 @@ class _MainPageState extends State<MainPage> {
                     Text.rich(
                       TextSpan(
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                           color: const Color(0xff67b500),
                         ),
                         children: [
                           TextSpan(
-                            text: 'Welcome Back, ',
+                            text: 'Welcome Back,'.trs(context),
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           TextSpan(
-                            text: 'Last seen TODAY, JUNE 5',
+                            text: 'Last seen'.trs(context),
+                            style: TextStyle(
+                              color: const Color(0xff000000),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' TODAY, JUNE 5',
                             style: TextStyle(
                               color: const Color(0xff000000),
                               fontWeight: FontWeight.w600,

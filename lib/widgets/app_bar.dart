@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 import 'back_arrow.dart';
 import 'back_button.dart';
@@ -33,7 +34,7 @@ class MyAppBar extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      'Back',
+                      'Back'.trs(context),
                       style: TextStyle(
                         fontSize: 17,
                         color: const Color(0xff67b500),
@@ -49,7 +50,7 @@ class MyAppBar extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 34,
+                      fontSize: 32,
                       color: const Color(0xff1d3400),
                       letterSpacing: 0.41000000190734864,
                       fontWeight: FontWeight.w700,
@@ -114,7 +115,7 @@ class MyAppBar extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      'Calendar',
+                      'Calendar'.trs(context),
                       style: TextStyle(
                         fontSize: 13,
                         color: const Color(0x801d3400),

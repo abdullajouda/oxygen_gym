@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/widgets/main_button.dart';
+import 'package:oxygen/services/Localization/localization.dart';
+import 'dart:math' as math;
 
 class LogOutSheet extends StatelessWidget {
   @override
@@ -38,14 +40,20 @@ class LogOutSheet extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: SvgPicture.asset(
-                  'assets/icons/logout.svg',
-                  height: 28,
-                  width: 34,
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: LangProvider().getLocaleCode() == 'ar'
+                      ? Matrix4.rotationY(math.pi)
+                      : Matrix4.rotationY(0),
+                  child: SvgPicture.asset(
+                    'assets/icons/logout.svg',
+                    height: 28,
+                    width: 34,
+                  ),
                 ),
               ),
               Text(
-                'Logout',
+                'Logout'.trs(context),
                 style: TextStyle(
                   fontSize: 40,
                   color: const Color(0xff1d3400),
@@ -58,7 +66,8 @@ class LogOutSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: Text(
-              'Are you sure about logout Oxogen App? Thank you for using us ❤️',
+              'Are you sure about logout Oxygen App? Thank you for using us ❤'
+                  .trs(context),
               style: TextStyle(
                 fontSize: 17,
                 color: const Color(0xff000000),
@@ -70,7 +79,7 @@ class LogOutSheet extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, right: 15, bottom: 50),
             child: MainButton(
               color: Color(0xffff4d4d),
-              title: 'Logout',
+              title: 'Logout'.trs(context),
             ),
           )
         ],

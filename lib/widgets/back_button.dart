@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'back_arrow.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class MyBackButton extends StatelessWidget {
   @override
@@ -8,7 +9,6 @@ class MyBackButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Container(
-        width: 80,
         child: TextButton(
           onPressed: () {
             Navigator.pop(context);
@@ -20,7 +20,7 @@ class MyBackButton extends StatelessWidget {
                 width: 5,
               ),
               Text(
-                'Back',
+                'Back'.trs(context),
                 style: TextStyle(
                   fontSize: 17,
                   color: const Color(0xff67b500),

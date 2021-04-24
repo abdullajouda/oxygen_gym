@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/widgets/back_button.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/menu_button.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class GymRules extends StatefulWidget {
   final VoidCallback openMenu;
@@ -52,7 +53,7 @@ class _GymRulesState extends State<GymRules> {
                     onTap: widget.openMenu,
                   ),
                   Text(
-                    'Gym Rules',
+                    'Gym Rules'.trs(context),
                     style: TextStyle(
                       fontSize: 32,
                       color: const Color(0xff1d3400),
@@ -72,10 +73,10 @@ class _GymRulesState extends State<GymRules> {
                   child: Container(
                     width: size.width,
                     height: _value != 0
-                        ? size.height * .2 - _value >= 120
-                            ? size.height * .2 - _value
+                        ? 162 - _value >= 120
+                            ? 162 - _value
                             : 120
-                        : size.height * .2,
+                        : 162,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: const Color(0xff67b500),
@@ -88,7 +89,7 @@ class _GymRulesState extends State<GymRules> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Welcome,\nHere Some Rules',
+                            'Welcome,Here Some Rules'.trs(context),
                             style: TextStyle(
                               fontSize: 22,
                               color: const Color(0xffffffff),
@@ -97,10 +98,14 @@ class _GymRulesState extends State<GymRules> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: _value != 0
+                                ? 10 - _value >= 0
+                                ? 10 - _value
+                                : 0
+                                : 10,
                           ),
                           Text(
-                            'Oxygen gym Administration',
+                            'Oxygen gym Administration'.trs(context),
                             style: TextStyle(
                               fontSize: 15,
                               color: const Color(0x661d3400),
@@ -114,16 +119,17 @@ class _GymRulesState extends State<GymRules> {
                 ),
               ),
               Positioned(
-                right: 28,
+                right: LangProvider().getLocaleCode() == 'ar' ? null : 28,
+                left: LangProvider().getLocaleCode() == 'ar' ? 28 : null,
                 top: -17,
                 child: SvgPicture.asset(
                   'assets/images/lightning.svg',
                   fit: BoxFit.fitHeight,
                   height: _value != 0
-                      ? size.height * .19 - _value >= 80
-                          ? size.height * .19 - _value
+                      ? 160 - _value >= 80
+                          ? 160 - _value
                           : 80
-                      : size.height * .19,
+                      : 160,
                 ),
               ),
             ],

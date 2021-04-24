@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/components/reservation_card.dart';
 import 'package:oxygen/constants.dart';
 import 'package:oxygen/widgets/menu_button.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class ReservationHistory extends StatefulWidget {
   final VoidCallback openMenu;
@@ -30,7 +31,7 @@ class _ReservationHistoryState extends State<ReservationHistory> {
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: size.width * .75),
                   child: Text(
-                    'Reservation History',
+                    'Reservation History'.trs(context),
                     style: TextStyle(
                       fontSize: 32,
                       color: const Color(0xff1d3400),

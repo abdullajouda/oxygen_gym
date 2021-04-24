@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/components/workout_card.dart';
 import 'package:oxygen/widgets/app_bar.dart';
 import 'package:oxygen/widgets/drawer.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class WorkOut extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class _WorkOutState extends State<WorkOut> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(child: MyAppBar(title: 'Workout',)),
+          SafeArea(child: MyAppBar(title: 'Workout'.trs(context),)),
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 60),
             child: CarouselSlider(
@@ -114,7 +115,7 @@ class _WorkOutState extends State<WorkOut> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  'Book an appointment',
+                  'Book an appointment'.trs(context),
                   style: TextStyle(
                     fontSize: 22,
                     color: const Color(0xff1d3400),

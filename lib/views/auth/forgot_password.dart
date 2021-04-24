@@ -5,6 +5,7 @@ import 'package:oxygen/views/terms&rules/terms.dart';
 import 'package:oxygen/widgets/back_button.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/main_button.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
                     // controller: name,
-                    decoration: fieldDecoration('Username'),
+                    decoration: fieldDecoration('Username'.trs(context)),
                   ),
                 ),
                 SizedBox(
@@ -40,7 +41,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: MainButton(
-                    title: 'Submit', onTap: () {  },
+                    title: 'Submit'.trs(context), onTap: () {  },
                   ),
                 ),
                 SizedBox(
@@ -54,7 +55,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          'By clicking Submit you agree to the following',
+                          'By clicking Submit you agree to the following'.trs(context),
                           style: TextStyle(
                             fontSize: 13,
                             color: const Color(0xff8c8c8c),
@@ -70,7 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 ));
                           },
                           child: Text(
-                            'Terms and Conditions',
+                            'Terms and Conditions'.trs(context),
                             style: TextStyle(
                               fontSize: 13,
                               color: const Color(0xff67b500),
@@ -80,7 +81,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ),
                         ),
                         Text(
-                          'without reservation',
+                          'without reservation'.trs(context),
                           style: TextStyle(
                             fontSize: 13,
                             color: const Color(0xff8c8c8c),

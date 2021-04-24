@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/services/Localization/localization.dart';
+import 'dart:math' as math;
 
 class ClassCard extends StatelessWidget {
   final int type;
@@ -19,9 +21,15 @@ class ClassCard extends StatelessWidget {
         ),
         Positioned(
           top: 10,
-          right: 10,
+          right: LangProvider().getLocaleCode() == 'ar' ? null : 10,
+          left: LangProvider().getLocaleCode() == 'ar' ? 10 : null,
           child: type == 1
-              ? SvgPicture.asset('assets/images/fitness.svg')
+              ? Transform(
+              alignment: Alignment.center,
+              transform: LangProvider().getLocaleCode() == 'ar'
+                  ? Matrix4.rotationY(math.pi)
+                  : Matrix4.rotationY(0),
+              child: SvgPicture.asset('assets/images/fitness.svg'))
               : SvgPicture.asset('assets/images/Heart.svg'),
         ),
         Align(
@@ -37,7 +45,7 @@ class ClassCard extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Book Now',
+                'Book Now'.trs(context),
                 style: TextStyle(
                   fontSize: 17,
                   color: const Color(0xffffffff),
@@ -61,14 +69,14 @@ class ClassCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: type == 1
                             ? SvgPicture.asset(
-                          'assets/icons/fitness.svg',
-                          color: Color(0xffc6c6c6),
-                        )
+                                'assets/icons/fitness.svg',
+                                color: Color(0xffc6c6c6),
+                              )
                             : SvgPicture.asset(
-                          'assets/icons/Heart.svg',
-                          height: 17,
-                          color: Color(0xffc6c6c6),
-                        ),
+                                'assets/icons/Heart.svg',
+                                height: 17,
+                                color: Color(0xffc6c6c6),
+                              ),
                       ),
                       Text(
                         'Corss fit',

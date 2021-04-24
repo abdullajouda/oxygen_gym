@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/constants.dart';
 import 'package:oxygen/views/auth/forgot_password.dart';
-import 'file:///C:/Users/histo/IdeaProjects/oxygen/lib/views/sidemenu_views/main_page.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/views/root_page.dart';
 import 'package:oxygen/widgets/back_arrow.dart';
 import 'package:oxygen/widgets/back_button.dart';
@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   Center(
                     child: Text(
-                      'Log in to Your Account',
+                      'Log in to Your Account'.trs(context),
                       style: TextStyle(
                         fontSize: 28,
                         color: const Color(0xff1d3400),
@@ -68,7 +68,7 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
                       controller: name,
-                      decoration: fieldDecoration('Username'),
+                      decoration: fieldDecoration('Username'.trs(context)),
                     ),
                   ),
                   SizedBox(
@@ -80,7 +80,7 @@ class _SignInState extends State<SignIn> {
                       controller: password,
                       obscureText: true,
                       obscuringCharacter: '*',
-                      decoration: fieldDecoration('Password'),
+                      decoration: fieldDecoration('Password'.trs(context)),
                     ),
                   ),
                   SizedBox(
@@ -92,7 +92,7 @@ class _SignInState extends State<SignIn> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage(),));
                       },
-                      title: 'Log In',
+                      title: 'Log In'.trs(context),
                     ),
                   )
                 ],
@@ -111,7 +111,7 @@ class _SignInState extends State<SignIn> {
                         ));
                   },
                   child: Text(
-                    'Forgot your password?',
+                    'Forgot your password?'.trs(context),
                     style: TextStyle(
                       fontSize: 17,
                       color: const Color(0xff67b500),

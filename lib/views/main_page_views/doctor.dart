@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/components/doctor_card.dart';
 import 'package:oxygen/widgets/app_bar.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class Doctors extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _DoctorsState extends State<Doctors> {
         children: [
           SafeArea(
               child: MyAppBar(
-            title: 'Doctor',
+            title: 'Doctor'.trs(context),
           )),
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 60),
@@ -116,7 +117,7 @@ class _DoctorsState extends State<Doctors> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
-                  'Book an appointment',
+                  'Book an appointment'.trs(context),
                   style: TextStyle(
                     fontSize: 22,
                     color: const Color(0xff1d3400),

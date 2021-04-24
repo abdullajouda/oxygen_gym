@@ -38,7 +38,9 @@ dependencies:
   flutter_svg: ^0.19.2
   flutter_spinkit:
   carousel_slider:
-  table_calendar: 
+  table_calendar:
+  provider:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class MainPageCard extends StatelessWidget {
   final String title;
@@ -36,7 +37,7 @@ class MainPageCard extends StatelessWidget {
               )),
           Container(
             child: Align(
-              alignment: Alignment.bottomLeft,
+              alignment: LangProvider().getLocaleCode()=='ar'?Alignment.bottomRight:Alignment.bottomLeft,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
@@ -54,7 +55,7 @@ class MainPageCard extends StatelessWidget {
                         child: icon,
                       ),
                       Text(
-                        title,
+                        title.trs(context),
                         style: TextStyle(
                           fontSize: 15,
                           color: const Color(0xffffffff),

@@ -7,11 +7,16 @@ import 'package:oxygen/services/Localization/lang_provider.dart';
 import 'package:oxygen/services/shared_perfs_provider.dart';
 import 'package:oxygen/views/select_branch.dart';
 import 'package:oxygen/views/splash.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceUtils.init();
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => LangProvider(),
+    )
+  ], child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -41,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
         },
       )),
-      locale: _newLocaleDelegate.newLocale,
+      locale: Locale(LangProvider().getLocaleCode()),
       supportedLocales: application.supportedLocales(),
       localizationsDelegates: [
         GlobalCupertinoLocalizations.delegate,
@@ -55,6 +60,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    if (!LangProvider().hasLocale()) {
+      LangProvider().setLocale(locale: Locales.en);
+    }
     application.onLocaleChanged = onLocaleChange;
     _newLocaleDelegate = AppTranslationsDelegate(
       newLocale: Locale('en', 'US'),

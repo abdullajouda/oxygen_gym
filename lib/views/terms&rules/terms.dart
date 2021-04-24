@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oxygen/widgets/back_button.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class Terms extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _TermsState extends State<Terms> {
           Padding(
             padding: const EdgeInsets.only(left: 17, right: 17),
             child: Text(
-              'Terms of Service',
+              'Terms of Service'.trs(context),
               style: TextStyle(
                 fontSize: 34,
                 color: const Color(0xff1d3400),
@@ -67,10 +68,10 @@ class _TermsState extends State<Terms> {
         child: Container(
           width: size.width,
           height: _value != 0
-              ? size.height * .2 - _value >= 120
-              ? size.height * .2 - _value
+              ? 162 - _value >= 120
+              ? 162 - _value
               : 120
-              : size.height * .2,
+              : 162,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: const Color(0xff67b500),
@@ -95,7 +96,7 @@ class _TermsState extends State<Terms> {
                         height: 10,
                       ),
                       Text(
-                        'Oxygen gym Administration',
+                        'Oxygen gym Administration'.trs(context),
                         style: TextStyle(
                           fontSize: 15,
                           color: const Color(0x661d3400),

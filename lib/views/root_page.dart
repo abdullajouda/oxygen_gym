@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:oxygen/models/menuitem.dart';
+import 'package:oxygen/views/sidemenu_views/language_change.dart';
 import 'package:oxygen/views/sidemenu_views/reservation_history.dart';
 import 'package:oxygen/views/terms&rules/privacy.dart';
 import 'package:oxygen/views/terms&rules/rules.dart';
@@ -80,6 +81,13 @@ class _RootPageState extends State<RootPage> {
       ),
       MenuItem(
         id: 5,
+        title: "App Language",
+        isSelected: false,
+        icon: 'assets/icons/globe.svg',
+        body: ChangeLanguage(openMenu:() => onClick() ,),
+      ),
+      MenuItem(
+        id: 6,
         title: "Call Us",
         isSelected: false,
         icon: 'assets/icons/Icon – Tab Bar - Add Number.svg',
@@ -126,7 +134,7 @@ class _RootPageState extends State<RootPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
-                        'Welcome',
+                        'Welcome'.trs(context),
                         style: TextStyle(
                           fontSize: 22,
                           color: const Color(0xff1d3400),
@@ -172,7 +180,7 @@ class _RootPageState extends State<RootPage> {
                                 width: 20,
                               ),
                               Text(
-                                'Logout',
+                                'Logout'.trs(context),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: const Color(0xffff4d4d),
@@ -210,7 +218,7 @@ class _RootPageState extends State<RootPage> {
                         ),
                       ),
                       Text(
-                        'All rights reserved © 2021',
+                        'All rights reserved © 2021'.trs(context),
                         style: TextStyle(
                           fontSize: 12,
                           color: const Color(0x661d3400),
@@ -237,52 +245,48 @@ class _RootPageState extends State<RootPage> {
       ),
       itemCount: items.length,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  items.forEach((element) {
-                    element.isSelected = false;
-                  });
-                  items[index].isSelected = true;
-                  // widget.title = items[index].title;
-                  id = items[index].id;
-                  final _state = sideMenuKey.currentState;
-                  Navigator.pop(context);
+        return GestureDetector(
+            onTap: () {
+              setState(() {
+                items.forEach((element) {
+                  element.isSelected = false;
                 });
-              },
-              child: Center(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        items[index].icon,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        items[index].title.trs(context),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: const Color(0xff1d3400),
-                          letterSpacing: -0.24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
-                    ],
-                  ),
+                items[index].isSelected = true;
+                // widget.title = items[index].title;
+                id = items[index].id;
+                final _state = sideMenuKey.currentState;
+                Navigator.pop(context);
+              });
+            },
+            child: Center(
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                height: 40.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-              )),
-        );
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      items[index].icon,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      items[index].title.trs(context),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: const Color(0xff1d3400),
+                        letterSpacing: -0.24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ));
       },
     );
   }

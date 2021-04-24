@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 
 class WorkOutCard extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class WorkOutCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Workout',
+                      'Workout'.trs(context),
                       style: TextStyle(
                         fontSize: 22,
                         color: const Color(0xff67b500),
@@ -117,7 +118,7 @@ class WorkOutCard extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Book Now',
+                'Book Now'.trs(context),
                 style: TextStyle(
                   fontSize: 17,
                   color: const Color(0xffffffff),

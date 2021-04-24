@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:oxygen/services/Localization/localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,7 +36,7 @@ class _RegisterState extends State<Register> {
                 children: [
                   Center(
                     child: Text(
-                      'Create an Account',
+                      'Create an Account'.trs(context),
                       style: TextStyle(
                         fontSize: 28,
                         color: const Color(0xff1d3400),
@@ -64,7 +65,7 @@ class _RegisterState extends State<Register> {
                               height: 8,
                             ),
                             Text(
-                              'Add photo',
+                              'Add photo'.trs(context),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: const Color(0xff8d8d8d),
@@ -79,7 +80,7 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Select Branch',
+                      'Select Branch'.trs(context),
                       style: TextStyle(
                         fontSize: 28,
                         color: const Color(0xff1d3400),
@@ -99,7 +100,7 @@ class _RegisterState extends State<Register> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: _branchContainer(
                           image: 'assets/icons/Flame.svg',
-                          text: 'Men Branch',
+                          text: 'Men Branch'.trs(context),
                           selected: men),
                     ),
                   ),
@@ -117,7 +118,7 @@ class _RegisterState extends State<Register> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: _branchContainer(
                           image: 'assets/icons/Heart.svg',
-                          text: 'Women Branch',
+                          text: 'Women Branch'.trs(context),
                           selected: women),
                     ),
                   ),
@@ -128,7 +129,7 @@ class _RegisterState extends State<Register> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
                       // controller: name,
-                      decoration: fieldDecoration('Enter Your Member ID'),
+                      decoration: fieldDecoration('Enter Your Member ID'.trs(context)),
                     ),
                   ),
                   SizedBox(
@@ -138,7 +139,7 @@ class _RegisterState extends State<Register> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
                       // controller: password,
-                      decoration: fieldDecoration('Enter Your WhatsApp Number'),
+                      decoration: fieldDecoration('Enter Your WhatsApp Number'.trs(context)),
                     ),
                   ),
                   SizedBox(
@@ -157,7 +158,7 @@ class _RegisterState extends State<Register> {
                                 ));
                           },
                           child: Text(
-                            'Terms of Service',
+                            'Terms of Service'.trs(context),
                             style: TextStyle(
                               fontSize: 13,
                               color: const Color(0xff67b500),
@@ -166,7 +167,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         Text(
-                          'and',
+                          'and'.trs(context),
                           style: TextStyle(
                             fontSize: 13,
                             color: const Color(0xff8a8a8f),
@@ -182,7 +183,7 @@ class _RegisterState extends State<Register> {
                                 ));
                           },
                           child: Text(
-                            'Privacy Policy',
+                            'Privacy Policy'.trs(context),
                             style: TextStyle(
                               fontSize: 13,
                               color: const Color(0xff67b500),
@@ -199,7 +200,7 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: MainButton(
-                      title: 'Registration',
+                      title: 'Registration'.trs(context),
                       onTap: () {},
                     ),
                   ),
@@ -211,7 +212,7 @@ class _RegisterState extends State<Register> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Already a member?',
+                          'Already a member?'.trs(context),
                           style: TextStyle(
                             fontSize: 17,
                             color: const Color(0x66000000),
@@ -221,7 +222,7 @@ class _RegisterState extends State<Register> {
                         TextButton(
                           onPressed: () {},
                           child: Text(
-                            'Log In',
+                            'Log In'.trs(context),
                             style: TextStyle(
                               fontSize: 17,
                               color: const Color(0xff67b500),
