@@ -4,8 +4,9 @@ class WorkoutModel {
   String from;
   String to;
   int availableNo;
+  int gender;
 
-  WorkoutModel({this.id, this.status, this.from, this.to, this.availableNo});
+  WorkoutModel({this.id, this.status, this.from, this.to,this.gender, this.availableNo});
 
   WorkoutModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -13,6 +14,7 @@ class WorkoutModel {
     from = json['from'];
     to = json['to'];
     availableNo = json['available_no'];
+    gender  = json['gender'];
   }
 
   Map<String, dynamic> toJson() {

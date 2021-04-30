@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 
 import 'back_arrow.dart';
@@ -8,8 +9,11 @@ import 'calender.dart';
 
 class MyAppBar extends StatelessWidget {
   final String title;
+  final DateTime date;
+  final bool isCalender;
 
-  const MyAppBar({Key key, this.title}) : super(key: key);
+  MyAppBar({Key key, this.title, @required this.date, this.isCalender = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +68,14 @@ class MyAppBar extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text: 'Friday, ',
+                          text:
+                              '${DateFormat('EEEE').format(date).trs(context)}, ',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         TextSpan(
-                          text: '10/4/2021',
+                          text: '${date.toString().split(' ')[0]}',
                           style: TextStyle(
                             color: const Color(0xff000000),
                             fontWeight: FontWeight.w600,
@@ -86,52 +91,56 @@ class MyAppBar extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextButton(
-                onPressed: () {
-                  showGeneralDialog(
-                    barrierDismissible: true,
-                    barrierLabel: '',
-                    barrierColor: Colors.black.withOpacity(0.1),
-                    transitionDuration: Duration(milliseconds: 300),
-                    context: context,
-                    pageBuilder: (context, anim1, anim2) {
-                      return GestureDetector(
-                          child: MyCalender());
-                    },
-                    transitionBuilder: (context, anim1, anim2, child) {
-                      return SlideTransition(
-                        position: Tween(begin: Offset(0, -1), end: Offset(0, 0))
-                            .animate(anim1),
-                        child: child,
-                      );
-                    },
-                  );
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset('assets/icons/calender.svg'),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'Calendar'.trs(context),
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: const Color(0x801d3400),
-                        fontWeight: FontWeight.w600,
+              isCalender
+                  ? Container()
+                  : TextButton(
+                      onPressed: () {
+                        showGeneralDialog(
+                          barrierDismissible: true,
+                          barrierLabel: '',
+                          barrierColor: Colors.black.withOpacity(0.1),
+                          transitionDuration: Duration(milliseconds: 300),
+                          context: context,
+                          pageBuilder: (context, anim1, anim2) {
+                            return GestureDetector(child: MyCalender());
+                          },
+                          transitionBuilder: (context, anim1, anim2, child) {
+                            return SlideTransition(
+                              position:
+                                  Tween(begin: Offset(0, -1), end: Offset(0, 0))
+                                      .animate(anim1),
+                              child: child,
+                            );
+                          },
+                        ).then((value) => null);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset('assets/icons/calender.svg'),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Calendar'.trs(context),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: const Color(0x801d3400),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
+                    ),
               SizedBox(
                 width: 5,
               ),
-              IconButton(
-                icon: SvgPicture.asset('assets/icons/reset.svg'),
-                onPressed: () {},
-              )
+              isCalender
+                  ? Container()
+                  : IconButton(
+                      icon: SvgPicture.asset('assets/icons/reset.svg'),
+                      onPressed: () {},
+                    )
             ],
           )
         ],

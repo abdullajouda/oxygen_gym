@@ -28,40 +28,40 @@ class _SignInState extends State<SignIn> {
   bool load = false;
 
   signIn() async {
-    // Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => RootPage(),
-    //     ));
-    if (_formKey.currentState.validate()) {
-      setState(() {
-      load = true;
-    });
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      var request = await post(Constants.apiURl + 'login', body: {
-        'username': name.text,
-        'password': password.text,
-        'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
-        'fcm_token':'111',
-        'gender':'${widget.gender}'
-      }, headers: {
-        'Accept': 'application/json',
-        'Accept-Language': LangProvider().getLocaleCode(),
-      });
-      var response = json.decode(request.body);
-      if (response['status'] == true) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RootPage(),
-            ));
-      } else {
-        Fluttertoast.showToast(msg: response['message']);
-        setState(() {
-          load = false;
-        });
-      }
-    }
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RootPage(),
+        ));
+    // if (_formKey.currentState.validate()) {
+    //   setState(() {
+    //   load = true;
+    // });
+    //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   var request = await post(Constants.apiURl + 'login', body: {
+    //     'username': name.text,
+    //     'password': password.text,
+    //     'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
+    //     'fcm_token':'111',
+    //     'gender':'${widget.gender}'
+    //   }, headers: {
+    //     'Accept': 'application/json',
+    //     'Accept-Language': LangProvider().getLocaleCode(),
+    //   });
+    //   var response = json.decode(request.body);
+    //   if (response['status'] == true) {
+    //     Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(
+    //           builder: (context) => RootPage(),
+    //         ));
+    //   } else {
+    //     Fluttertoast.showToast(msg: response['message']);
+    //     setState(() {
+    //       load = false;
+    //     });
+    //   }
+    // }
     setState(() {
       load = false;
     });

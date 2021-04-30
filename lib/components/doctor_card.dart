@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/models/doctor.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'dart:math' as math;
 
 class DoctorCard extends StatelessWidget {
   final int type;
+  final DoctorModel doctor;
 
-  const DoctorCard({Key key, this.type = 1}) : super(key: key);
+  const DoctorCard({Key key, this.type = 1, this.doctor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +44,30 @@ class DoctorCard extends StatelessWidget {
                 bottomRight: Radius.circular(10.0),
                 bottomLeft: Radius.circular(10.0),
               ),
-              color: const Color(0xff67b500),
+              color: doctor.availableNo == 0
+                  ? Color(0xffc6c6c6)
+                  : Color(0xff67b500),
             ),
             child: Center(
-              child: Text(
-                'Book Now'.trs(context),
-                style: TextStyle(
-                  fontSize: 17,
-                  color: const Color(0xffffffff),
-                  letterSpacing: -0.41000000190734864,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: doctor.availableNo == 0
+                  ? Text(
+                      'Class Full'.trs(context),
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: const Color(0xffffffff),
+                        letterSpacing: -0.41000000190734864,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  : Text(
+                      'Book Now'.trs(context),
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: const Color(0xffffffff),
+                        letterSpacing: -0.41000000190734864,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
             ),
           ),
         ),
@@ -80,7 +94,7 @@ class DoctorCard extends StatelessWidget {
                               ),
                       ),
                       Text(
-                        'Fitness',
+                        '${doctor.specialization}',
                         style: TextStyle(
                           fontSize: 22,
                           color: const Color(0xff67b500),
@@ -92,7 +106,7 @@ class DoctorCard extends StatelessWidget {
                         width: 14,
                       ),
                       Text(
-                        'Dr. Iyass Hrazin',
+                        '${doctor.doctorName}',
                         style: TextStyle(
                           fontSize: 22,
                           color: const Color(0xff1d3400),
@@ -111,35 +125,35 @@ class DoctorCard extends StatelessWidget {
                         'assets/icons/clock.svg',
                       ),
                     ),
-                    Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: const Color(0xff1d3400),
-                          letterSpacing: -0.24,
+                    Row(
+                      children: [
+                        Text(
+                          '${doctor.from.substring(0, 5)} ',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff1d3400),
+                            letterSpacing: -0.24,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        children: [
-                          TextSpan(
-                            text: '7:15 ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                        Text(
+                          '- ',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff1d3400),
+                            letterSpacing: -0.24,
                           ),
-                          TextSpan(
-                            text: '- ',
-                            style: TextStyle(
-                              color: const Color(0xffbebebe),
-                              fontWeight: FontWeight.w600,
-                            ),
+                        ),
+                        Text(
+                          '${doctor.to}',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff1d3400),
+                            letterSpacing: -0.24,
+                            fontWeight: FontWeight.w600,
                           ),
-                          TextSpan(
-                            text: '8:30 PM',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -155,7 +169,7 @@ class DoctorCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Available: 13',
+                      '${'Available'.trs(context)}: ${doctor.availableNo}',
                       style: TextStyle(
                         fontSize: 15,
                         color: const Color(0xff1d3400),

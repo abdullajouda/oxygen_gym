@@ -7,6 +7,7 @@ class WorkOutCard extends StatelessWidget {
   final WorkoutModel workout;
 
   const WorkOutCard({Key key, this.workout}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,8 +27,7 @@ class WorkOutCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: SvgPicture.asset(
                         'assets/icons/Flame.svg',
                         color: Color(0xffc6c6c6),
@@ -48,41 +48,40 @@ class WorkOutCard extends StatelessWidget {
               Row(
                 children: [
                   Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: SvgPicture.asset(
                       'assets/icons/clock.svg',
                     ),
                   ),
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: const Color(0xff1d3400),
-                        letterSpacing: -0.24,
+                  Row(
+                    children: [
+                      Text(
+                        '${workout.from.substring(0, 5)} ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: const Color(0xff1d3400),
+                          letterSpacing: -0.24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      children: [
-                        TextSpan(
-                          text: '7:15 ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                      Text(
+                        '- ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: const Color(0xff1d3400),
+                          letterSpacing: -0.24,
                         ),
-                        TextSpan(
-                          text: '- ',
-                          style: TextStyle(
-                            color: const Color(0xffbebebe),
-                            fontWeight: FontWeight.w600,
-                          ),
+                      ),
+                      Text(
+                        '${workout.to}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: const Color(0xff1d3400),
+                          letterSpacing: -0.24,
+                          fontWeight: FontWeight.w600,
                         ),
-                        TextSpan(
-                          text: '8:30 PM',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -92,14 +91,13 @@ class WorkOutCard extends StatelessWidget {
               Row(
                 children: [
                   Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: SvgPicture.asset(
                       'assets/icons/profile.svg',
                     ),
                   ),
                   Text(
-                    'Available: 13',
+                    '${'Available'.trs(context)}: ${workout.availableNo}',
                     style: TextStyle(
                       fontSize: 15,
                       color: const Color(0xff1d3400),
@@ -118,18 +116,30 @@ class WorkOutCard extends StatelessWidget {
                 bottomRight: Radius.circular(10.0),
                 bottomLeft: Radius.circular(10.0),
               ),
-              color: const Color(0xff67b500),
+              color: workout.availableNo == 0
+                  ? Color(0xffc6c6c6)
+                  : Color(0xff67b500),
             ),
             child: Center(
-              child: Text(
-                'Book Now'.trs(context),
-                style: TextStyle(
-                  fontSize: 17,
-                  color: const Color(0xffffffff),
-                  letterSpacing: -0.41000000190734864,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: workout.availableNo == 0
+                  ? Text(
+                      'Class Full'.trs(context),
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: const Color(0xffffffff),
+                        letterSpacing: -0.41000000190734864,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  : Text(
+                      'Book Now'.trs(context),
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: const Color(0xffffffff),
+                        letterSpacing: -0.41000000190734864,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
             ),
           )
         ],

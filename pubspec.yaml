@@ -42,6 +42,8 @@ dependencies:
   provider:
   flutter_html:
   url_launcher:
+  intl:
+
 
 dev_dependencies:
   flutter_test:

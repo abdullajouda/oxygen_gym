@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     getSettings().then((value) => startTime());
-    startTime();
+    // startTime();
     super.initState();
   }
 

@@ -1,21 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:oxygen/constants.dart';
+import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/widgets/app_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MyCalender extends StatefulWidget {
+
   @override
   _MyCalenderState createState() => _MyCalenderState();
 }
 
 class _MyCalenderState extends State<MyCalender> {
-  DateTime _day;
+  DateTime _day= DateTime.now();
   DateTime _focusedDay;
-  List _getEventsForDay(DateTime day) {
-    // return events[day] ?? [];
-  }
+
+  // List _getEventsForDay(DateTime day) {
+  //   // return events[day] ?? [];
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +38,15 @@ class _MyCalenderState extends State<MyCalender> {
                 children: [
                   SafeArea(
                     child: MyAppBar(
-                      title: 'Calender',
+                      date: _day,
+                      isCalender: true,
+                      title: 'Calender'.trs(context),
                     ),
                   ),
                   TableCalendar(
                     firstDay: DateTime.now(),
                     lastDay: DateTime.now().add(Duration(days: 30)),
-                    focusedDay: DateTime.now().add(Duration(days: 1)),
+                    focusedDay: DateTime.now().add(Duration(days: 1)),locale: LangProvider().getLocaleCode()=='ar'?'ar_SA':'en_US',
                     headerStyle: HeaderStyle(
                         titleTextStyle: TextStyle(color: Colors.transparent),
                         rightChevronVisible: false,

@@ -134,21 +134,21 @@ class _SelectBranchState extends State<SelectBranch> {
                             SizedBox(
                               height: 8,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: MainButton(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Register(gender: men ? 1 : 2,),
-                                      ));
-                                },
-                                height: 50,
-                                title: 'Registration'.trs(context),
-                              ),
-                            )
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.symmetric(horizontal: 15),
+                            //   child: MainButton(
+                            //     onTap: () {
+                            //       Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //             builder: (context) => Register(gender: men ? 1 : 2,),
+                            //           ));
+                            //     },
+                            //     height: 50,
+                            //     title: 'Registration'.trs(context),
+                            //   ),
+                            // )
                           ],
                         ),
                       ],

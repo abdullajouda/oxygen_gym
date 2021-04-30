@@ -1,9 +1,18 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:oxygen/components/doctor_card.dart';
+import 'package:oxygen/constants.dart';
+import 'package:oxygen/models/doctor.dart';
+import 'package:oxygen/models/slider.dart';
 import 'package:oxygen/widgets/app_bar.dart';
 import 'package:oxygen/services/Localization/localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Doctors extends StatefulWidget {
   @override
@@ -13,6 +22,52 @@ class Doctors extends StatefulWidget {
 class _DoctorsState extends State<Doctors> {
   ScrollController _controller;
   double _value = 0.0;
+  List<DoctorModel> _list = [];
+  List<SliderModel> _sliderItems = [];
+
+  bool load = false;
+  DateTime _date = DateTime.now();
+
+  getDoctors() async {
+    setState(() {
+      load = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var request = await post(Constants.apiURl + 'getDoctors', body: {
+      'date': '${_date.toString().split(' ')[0]}',
+    }, headers: {
+      'Accept': 'application/json',
+      // 'Authorization': 'Bearer ${prefs.getString('userToken')}',
+      'Authorization': Constants.token,
+      'Accept-Language': LangProvider().getLocaleCode(),
+    });
+    var response = json.decode(request.body);
+    if (response['status'] == true) {
+      List rs = response['items'];
+      rs.forEach((element) {
+        DoctorModel wm = DoctorModel.fromJson(element);
+        _list.add(wm);
+      });
+    } else {
+      Fluttertoast.showToast(msg: response['message']);
+    }
+    setState(() {
+      load = false;
+    });
+  }
+
+  getSlider() async {
+    var request = await get(Constants.apiURl + 'getSliders/2', headers: {
+      'Accept': 'application/json',
+      'Accept-Language': LangProvider().getLocaleCode(),
+    });
+    var response = json.decode(request.body);
+    List rs = response['items'];
+    rs.forEach((element) {
+      SliderModel slider = SliderModel.fromJson(element);
+      _sliderItems.add(slider);
+    });
+  }
 
   void _scrollListener() {
     setState(() {
@@ -22,6 +77,7 @@ class _DoctorsState extends State<Doctors> {
 
   @override
   void initState() {
+    getDoctors();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
@@ -41,9 +97,12 @@ class _DoctorsState extends State<Doctors> {
         children: [
           SafeArea(
               child: MyAppBar(
+                date: _date,
             title: 'Doctor'.trs(context),
           )),
-          ConstrainedBox(
+          _sliderItems.length == 0
+              ? Container()
+              : ConstrainedBox(
             constraints: BoxConstraints(minHeight: 60),
             child: CarouselSlider(
               options: CarouselOptions(
@@ -52,57 +111,62 @@ class _DoctorsState extends State<Doctors> {
                           ? 160 - _value
                           : 60
                       : 160,
-                  enlargeCenterPage: true,
+                  viewportFraction: 0.9,
+                // enlargeCenterPage: true,
                   enableInfiniteScroll: false
                   // disableCenter: true,
                   ),
-              items: [1, 2]
+              items: _sliderItems
                   .map(
                     (item) => ConstrainedBox(
                       constraints: BoxConstraints(minHeight: 60),
-                      child: Container(
-                        height: _value != 0
-                            ? 160 - _value >= 60
-                                ? 160 - _value
-                                : 60
-                            : 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          gradient: LinearGradient(
-                            begin: Alignment(0.0, 1.0),
-                            end: Alignment(0.0, -1.0),
-                            colors: [
-                              const Color(0x80000000),
-                              const Color(0x00000000)
-                            ],
-                            stops: [0.0, 1.0],
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 5, left: 15, right: 15),
-                                  child: SvgPicture.asset(
-                                      'assets/icons/Glyph.svg'),
-                                ),
-                                Container(
-                                  width: 200,
-                                  child: Text(
-                                    'Here text Titel for an example Next line add here',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: const Color(0xffffffff),
-                                      letterSpacing: -0.24,
-                                    ),
-                                  ),
-                                )
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Container(
+                          height: _value != 0
+                              ? 160 - _value >= 60
+                                  ? 160 - _value
+                                  : 60
+                              : 160,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: NetworkImage(item.image),fit: BoxFit.cover),
+                            borderRadius: BorderRadius.circular(10.0),
+                            gradient: LinearGradient(
+                              begin: Alignment(0.0, 1.0),
+                              end: Alignment(0.0, -1.0),
+                              colors: [
+                                const Color(0x80000000),
+                                const Color(0x00000000)
                               ],
+                              stops: [0.0, 1.0],
+                            ),
+                          ),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, left: 15, right: 15),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/Glyph.svg'),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    child: Text(
+                                      item.title,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: const Color(0xffffffff),
+                                        letterSpacing: -0.24,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -129,18 +193,22 @@ class _DoctorsState extends State<Doctors> {
             ],
           ),
           Expanded(
-            child: GridView.builder(
-              controller: _controller,
-              padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-              shrinkWrap: true,
-              itemCount: 3,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 1,
-                  childAspectRatio: 2.2),
-              itemBuilder: (context, index) => DoctorCard()
-            ),
+            child: load
+                ? Center(child: CircularProgressIndicator())
+                : GridView.builder(
+                    controller: _controller,
+                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                    shrinkWrap: true,
+                    itemCount: _list.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        crossAxisCount: 1,
+                        childAspectRatio: 2.2),
+                    itemBuilder: (context, index) => DoctorCard(
+                          doctor: _list[index],
+                          type: _list[index].type,
+                        )),
           )
         ],
       ),

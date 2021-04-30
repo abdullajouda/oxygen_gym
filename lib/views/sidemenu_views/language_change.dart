@@ -6,7 +6,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/constants.dart';
 import 'package:oxygen/main.dart';
-import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/widgets/main_button.dart';
 import 'package:oxygen/widgets/menu_button.dart';
 import 'package:provider/provider.dart';
@@ -23,13 +22,22 @@ class ChangeLanguage extends StatefulWidget {
 class _ChangeLanguageState extends State<ChangeLanguage> {
   bool arabic, english;
 
-  changeLanguage()async{
-    var lang = Provider.of<LangProvider>(context,listen: false);
-    if(arabic){
+  changeLanguage() async {
+    var lang = Provider.of<LangProvider>(context, listen: false);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (arabic) {
       lang.setLocale(locale: Locales.ar);
-    }else{
+    } else {
       lang.setLocale(locale: Locales.en);
     }
+    // await post(Constants.apiURl + 'updateFcmToken', body: {
+    //   'accept_notification': '1',
+    //   'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
+    //   'fcm_token':'111',
+    // }, headers: {
+    //   'Accept': 'application/json',
+    //   'Accept-Language': LangProvider().getLocaleCode(),
+    // });
     Navigator.popUntil(context, (route) => route.isFirst);
     Navigator.pushReplacement(
         context,
@@ -94,7 +102,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                     ),
                   ),
                   Text(
-                    'Changing the language will completely change the application language'.trs(context),
+                    'Changing the language will completely change the application language'
+                        .trs(context),
                     overflow: TextOverflow.visible,
                     style: TextStyle(
                       fontSize: 17,
@@ -118,10 +127,10 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                           arabic = true;
                           english = false;
                         });
-
                       },
                       child: _languageField(
-                          title: 'Arabic Language'.trs(context), selected: arabic)),
+                          title: 'Arabic Language'.trs(context),
+                          selected: arabic)),
                 ),
                 Divider(
                   thickness: 1,
@@ -138,7 +147,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                         });
                       },
                       child: _languageField(
-                          title: 'English Language'.trs(context), selected: english)),
+                          title: 'English Language'.trs(context),
+                          selected: english)),
                 ),
                 Divider(
                   thickness: 1,

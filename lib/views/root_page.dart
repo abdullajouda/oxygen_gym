@@ -37,10 +37,10 @@ class _RootPageState extends State<RootPage> {
 
  _makePhoneCall() async {
     var set = Provider.of<SettingsOperation>(context,listen: false);
-    if (await canLaunch(set.settingsModel.mobile)) {
+    if (await canLaunch('tel:${set.settingsModel.mobile}')) {
       await launch('tel:${set.settingsModel.mobile}');
     } else {
-      throw 'Could not launch';
+      throw 'Could not launch ${set.settingsModel.mobile}';
     }
   }
 
