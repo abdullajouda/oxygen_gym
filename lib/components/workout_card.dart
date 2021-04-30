@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/models/workout.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 
 class WorkOutCard extends StatelessWidget {
+  final WorkoutModel workout;
+
+  const WorkOutCard({Key key, this.workout}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

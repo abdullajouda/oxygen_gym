@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oxygen/constants.dart';
+import 'package:oxygen/views/root_page.dart';
 import 'package:oxygen/views/terms&rules/privacy.dart';
 import 'package:oxygen/views/terms&rules/terms.dart';
 import 'package:oxygen/widgets/back_button.dart';
@@ -11,13 +16,69 @@ import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/main_button.dart';
 
 class Register extends StatefulWidget {
+  final int gender;
+
+  const Register({Key key, this.gender}) : super(key: key);
+
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool men = true;
   bool women = false;
+  TextEditingController name, password;
+  bool load = false;
+
+  signIn() async {
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        load = true;
+      });
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      var request = await post(Constants.apiURl + 'login', body: {
+        'username': name.text,
+        'password': password.text,
+        'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
+        'fcm_token': '111',
+        'gender': '${widget.gender}'
+      }, headers: {
+        'Accept': 'application/json',
+        'Accept-Language': LangProvider().getLocaleCode(),
+      });
+      var response = json.decode(request.body);
+      if (response['status'] == true) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RootPage(),
+            ));
+      } else {
+        Fluttertoast.showToast(msg: response['message']);
+        setState(() {
+          load = false;
+        });
+      }
+    }
+    setState(() {
+      load = false;
+    });
+  }
+
+  @override
+  void initState() {
+    name = TextEditingController();
+    password = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    name.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +190,8 @@ class _RegisterState extends State<Register> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
                       // controller: name,
-                      decoration: fieldDecoration('Enter Your Member ID'.trs(context)),
+                      decoration:
+                          fieldDecoration('Enter Your Member ID'.trs(context)),
                     ),
                   ),
                   SizedBox(
@@ -139,7 +201,8 @@ class _RegisterState extends State<Register> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
                       // controller: password,
-                      decoration: fieldDecoration('Enter Your WhatsApp Number'.trs(context)),
+                      decoration: fieldDecoration(
+                          'Enter Your WhatsApp Number'.trs(context)),
                     ),
                   ),
                   SizedBox(

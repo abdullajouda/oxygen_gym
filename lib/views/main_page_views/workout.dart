@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
 import 'package:oxygen/components/workout_card.dart';
+import 'package:oxygen/constants.dart';
+import 'package:oxygen/models/workout.dart';
 import 'package:oxygen/widgets/app_bar.dart';
 import 'package:oxygen/widgets/drawer.dart';
 import 'package:oxygen/services/Localization/localization.dart';
@@ -14,6 +20,7 @@ class WorkOut extends StatefulWidget {
 class _WorkOutState extends State<WorkOut> {
   ScrollController _controller;
   double _value = 0.0;
+  List<WorkoutModel> _list = [];
 
   void _scrollListener() {
     setState(() {
@@ -21,8 +28,37 @@ class _WorkOutState extends State<WorkOut> {
     });
   }
 
+  bool load = false;
+
+  getWorkouts() async {
+    setState(() {
+      load = true;
+    });
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    var request = await post(Constants.apiURl + 'getWorkouts', body: {
+      'date': '',
+    }, headers: {
+      'Accept': 'application/json',
+      'Accept-Language': LangProvider().getLocaleCode(),
+    });
+    var response = json.decode(request.body);
+    if (response['status'] == true) {
+      List rs = response['items'];
+      rs.forEach((element) {
+        WorkoutModel wm = WorkoutModel.fromJson(element);
+        _list.add(wm);
+      });
+    } else {
+      Fluttertoast.showToast(msg: response['message']);
+    }
+    setState(() {
+      load = false;
+    });
+  }
+
   @override
   void initState() {
+    getWorkouts();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
@@ -40,7 +76,10 @@ class _WorkOutState extends State<WorkOut> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(child: MyAppBar(title: 'Workout'.trs(context),)),
+          SafeArea(
+              child: MyAppBar(
+            title: 'Workout'.trs(context),
+          )),
           ConstrainedBox(
             constraints: BoxConstraints(minHeight: 60),
             child: CarouselSlider(
@@ -127,18 +166,17 @@ class _WorkOutState extends State<WorkOut> {
             ],
           ),
           Expanded(
-            child: GridView.builder(
-              controller: _controller,
-              padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-              shrinkWrap: true,
-              itemCount: 7,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: 1),
-              itemBuilder: (context, index) => WorkOutCard()
-            ),
+            child: load?Center(child: CircularProgressIndicator()):GridView.builder(
+                controller: _controller,
+                padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                shrinkWrap: true,
+                itemCount: _list.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    crossAxisCount: 2,
+                    childAspectRatio: 1),
+                itemBuilder: (context, index) => WorkOutCard(workout: _list[index],)),
           )
         ],
       ),

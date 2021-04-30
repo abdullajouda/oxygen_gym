@@ -1,11 +1,24 @@
 
 import 'package:flutter/material.dart';
-
+import 'package:oxygen/services/Localization/localization.dart';
 const kPrimaryColor = Color(0xff67b500);
 
 class Constants {
   static const String langKey = 'langKey';
+
+  static const String apiURl = 'https://beinlive.co/api/';
 }
+
+
+class FieldValidator {
+  static String validate(String value, context) {
+    if (value.isEmpty) {
+      return  '* Required'.trs(context);
+    }
+    return null;
+  }
+}
+
 
 InputDecoration fieldDecoration(hint) {
   return InputDecoration(

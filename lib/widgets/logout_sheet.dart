@@ -1,10 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart';
+import 'package:oxygen/constants.dart';
+import 'package:oxygen/main.dart';
+import 'package:oxygen/services/services.dart';
 import 'package:oxygen/widgets/main_button.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'dart:math' as math;
 
-class LogOutSheet extends StatelessWidget {
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Logout extends StatefulWidget {
+  @override
+  _LogoutState createState() => _LogoutState();
+}
+
+class _LogoutState extends State<Logout> {
+  logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var request = await get(Constants.apiURl + 'logout', headers: {
+      'Accept': 'application/json',
+      'Accept-Language': LangProvider().getLocaleCode(),
+      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+    });
+    Services().clearUser();
+    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyApp(),
+        ));
+    // var response = json.decode(request.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,6 +107,7 @@ class LogOutSheet extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, right: 15, bottom: 50),
             child: MainButton(
               color: Color(0xffff4d4d),
+              onTap: () => logout(),
               title: 'Logout'.trs(context),
             ),
           )

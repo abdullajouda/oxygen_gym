@@ -113,13 +113,16 @@ class _SelectBranchState extends State<SelectBranch> {
                               height: 40,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: MainButton(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => SignIn(),
+                                        builder: (context) => SignIn(
+                                          gender: men ? 1 : 2,
+                                        ),
                                       ));
                                 },
                                 height: 50,
@@ -132,13 +135,14 @@ class _SelectBranchState extends State<SelectBranch> {
                               height: 8,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: MainButton(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Register(),
+                                        builder: (context) => Register(gender: men ? 1 : 2,),
                                       ));
                                 },
                                 height: 50,

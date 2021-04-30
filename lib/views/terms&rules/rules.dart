@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:oxygen/models/settings.dart';
 import 'package:oxygen/widgets/back_button.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/menu_button.dart';
 import 'package:oxygen/services/Localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class GymRules extends StatefulWidget {
   final VoidCallback openMenu;
@@ -40,6 +43,7 @@ class _GymRulesState extends State<GymRules> {
 
   @override
   Widget build(BuildContext context) {
+    var set = Provider.of<SettingsOperation>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -141,23 +145,12 @@ class _GymRulesState extends State<GymRules> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: SingleChildScrollView(
-                    child: Text(
-                  'That first step. We’re here to give you the motivation and guidance to start and keep running. '
-                  'A balanced mix of strength, endurance and mobility workouts, mostly 15 to 30 min each. '
-                  'Nothing too advanced, just the right amount of challenge to start improving your fitness.\n\nThis week we start '
-                  'at the beginning: what are the principles of very simple games, like Hangman and tic-tac-toe? How do these games work?'
-                  ' Why do people play them? What are the elements that define ga… \n\nDL has been introduced with the objective of moving '
-                  ' Why do people play them? What are the elements that define ga… \n\nDL has been introduced with the objective of moving '
-                  ' Why do people play them? What are the elements that define ga… \n\nDL has been introduced with the objective of moving '
-                  ' Why do people play them? What are the elements that define ga… \n\nDL has been introduced with the objective of moving '
-                  'Machine Learning closer to one of its original goals artificial intelligence.\n\nWe’re here to give you the motivation and guidance to start and keep running'
-                  'We’re here to give you the motivation and guidance to start and keep runningWe’re here to give you the motivation and guidance to start and keep runningWe’re here to give you the motivation and guidance to start and keep runningWe’re here to give you the motivation and guidance to start and keep running',
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: const Color(0xff000000),
-                    letterSpacing: -0.41000000190734864,
-                  ),
-                )),
+                    child: Html(
+                      data: set
+                          .settingsModel.rules.description
+                          .replaceAll("\\r\\n", '') ??
+                          '',
+                    ),),
               ),
               SizedBox(
                 height: 60,

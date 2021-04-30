@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:oxygen/models/menuitem.dart';
+import 'package:oxygen/models/settings.dart';
 import 'package:oxygen/views/sidemenu_views/language_change.dart';
 import 'package:oxygen/views/sidemenu_views/reservation_history.dart';
 import 'package:oxygen/views/terms&rules/privacy.dart';
@@ -8,6 +9,8 @@ import 'package:oxygen/views/terms&rules/rules.dart';
 import 'package:oxygen/widgets/drawer.dart';
 import 'package:oxygen/widgets/logout_sheet.dart';
 import 'package:oxygen/services/Localization/localization.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
 import 'sidemenu_views/change_password.dart';
@@ -31,6 +34,16 @@ class _RootPageState extends State<RootPage> {
       _state.openDrawer();
     });
   }
+
+ _makePhoneCall() async {
+    var set = Provider.of<SettingsOperation>(context,listen: false);
+    if (await canLaunch(set.settingsModel.mobile)) {
+      await launch('tel:${set.settingsModel.mobile}');
+    } else {
+      throw 'Could not launch';
+    }
+  }
+
 
   int id = 0;
   List<MenuItem> items = [];
@@ -70,28 +83,33 @@ class _RootPageState extends State<RootPage> {
         title: "Reservation History",
         isSelected: false,
         icon: 'assets/icons/Icon – Tab Bar - Tasks.svg',
-        body: ReservationHistory(openMenu: () => onClick(),),
+        body: ReservationHistory(
+          openMenu: () => onClick(),
+        ),
       ),
       MenuItem(
         id: 4,
         title: "Privacy & policy",
         isSelected: false,
         icon: 'assets/icons/Icon – Tab Bar - Privacy.svg',
-        body: Privacy(openMenu:() => onClick() ,),
+        body: Privacy(
+          openMenu: () => onClick(),
+        ),
       ),
       MenuItem(
         id: 5,
         title: "App Language",
         isSelected: false,
         icon: 'assets/icons/globe.svg',
-        body: ChangeLanguage(openMenu:() => onClick() ,),
+        body: ChangeLanguage(
+          openMenu: () => onClick(),
+        ),
       ),
       MenuItem(
         id: 6,
         title: "Call Us",
         isSelected: false,
         icon: 'assets/icons/Icon – Tab Bar - Add Number.svg',
-        // body: Settings(openMenu: () => onClick(),),
       ),
     ]);
     if (widget.id != null) {
@@ -103,6 +121,7 @@ class _RootPageState extends State<RootPage> {
     }
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +188,7 @@ class _RootPageState extends State<RootPage> {
                             isScrollControlled: true,
                             enableDrag: true,
                             isDismissible: true,
-                            builder: (context) => LogOutSheet(),
+                            builder: (context) => Logout(),
                           );
                         },
                         child: Container(
@@ -208,7 +227,7 @@ class _RootPageState extends State<RootPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 5, bottom: 2),
                         child: Text(
-                          'Oxogen Gym',
+                          'Oxygen Gym',
                           style: TextStyle(
                             fontSize: 12,
                             color: const Color(0x661d3400),
@@ -233,7 +252,7 @@ class _RootPageState extends State<RootPage> {
           ),
         ),
       ),
-      body: items[id].body,
+      body: id == items.last.id ? items[0].body : items[id].body,
     );
   }
 
@@ -258,6 +277,9 @@ class _RootPageState extends State<RootPage> {
                 final _state = sideMenuKey.currentState;
                 Navigator.pop(context);
               });
+              if(id == items.last.id){
+                _makePhoneCall();
+              }
             },
             child: Center(
               child: AnimatedContainer(

@@ -9,13 +9,18 @@ import 'package:oxygen/views/select_branch.dart';
 import 'package:oxygen/views/splash.dart';
 import 'package:provider/provider.dart';
 
+import 'models/settings.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceUtils.init();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => LangProvider(),
-    )
+    ),
+    Provider(
+      create: (context) => SettingsOperation(),
+    ),
   ], child: MyApp()));
 }
 

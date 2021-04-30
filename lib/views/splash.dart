@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart';
 import 'package:oxygen/constants.dart';
+import 'package:oxygen/models/settings.dart';
+import 'package:oxygen/services/Localization/lang_provider.dart';
 import 'package:oxygen/views/select_branch.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,43 +22,31 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   setLandingPage() async {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectBranch(),));
-    // var user = Provider.of<UserOperations>(context, listen: false);
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setString('language', LangProvider().getLocaleCode());
-    // if (prefs.getString('userToken') == null) {
-    //   if (LangProvider().hasLocale()) {
-    //     Navigator.pushReplacement(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => SignIn(),
-    //         ));
-    //   } else {
-    //     Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => ChooseLanguage(),
-    //       ),
-    //     );
-    //   }
-    // }else{
-      // user.setUser(User(
-      //     id: prefs.getInt('id'),
-      //     name: prefs.getString('name'),
-      //     address: prefs.getString('address'),
-      //     avatar:  prefs.getString('avatar'),
-      //     email:  prefs.getString('email'),
-      //     mobile: prefs.getString('mobile')
-      // ) );
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => RootScreen(),));
-    // }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SelectBranch(),
+        ));
+  }
+
+  getSettings() async {
+    var set = Provider.of<SettingsOperation>(context, listen: false);
+    var request = await get(Constants.apiURl + 'getSetting', headers: {
+      'Accept-Language': '${LangProvider().getLocaleCode()}',
+      'Accept': 'application/json',
+    });
+    var response = json.decode(request.body);
+    SettingsModel settings = SettingsModel.fromJson(response['items']);
+    set.setSettings(settings);
   }
 
   @override
   void initState() {
+    getSettings().then((value) => startTime());
     startTime();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -64,7 +57,11 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            SvgPicture.asset('assets/images/splash_forground.svg',height: size.height*.9,fit: BoxFit.fitHeight,),
+            SvgPicture.asset(
+              'assets/images/splash_forground.svg',
+              height: size.height * .9,
+              fit: BoxFit.fitHeight,
+            ),
             SvgPicture.asset('assets/images/logo.svg'),
           ],
         ),
