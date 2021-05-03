@@ -11,6 +11,7 @@ import 'package:oxygen/constants.dart';
 import 'package:oxygen/models/slider.dart';
 import 'package:oxygen/models/workout.dart';
 import 'package:oxygen/widgets/app_bar.dart';
+import 'package:oxygen/widgets/calender.dart';
 import 'package:oxygen/widgets/drawer.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,14 +32,16 @@ class _WorkOutState extends State<WorkOut> {
   getWorkouts() async {
     setState(() {
       load = true;
+      _list.clear();
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var request = await post(Constants.apiURl + 'getWorkouts', body: {
-      'date': '${_date.toString().split(' ')[0]}',
+      // 'date': '${_date.toString().split(' ')[0]}',
+      'date': '01-05-2021',
     }, headers: {
       'Accept': 'application/json',
-      // 'Authorization': 'Bearer ${prefs.getString('userToken')}',
-      'Authorization': Constants.token,
+      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+      // 'Authorization': Constants.token,
       'Accept-Language': LangProvider().getLocaleCode(),
     });
     var response = json.decode(request.body);
@@ -99,6 +102,37 @@ class _WorkOutState extends State<WorkOut> {
           SafeArea(
             child: MyAppBar(
               date: _date,
+              refresh: () {
+                getWorkouts();
+              },
+              openCalender: () {
+                showGeneralDialog(
+                  barrierDismissible: true,
+                  barrierLabel: '',
+                  barrierColor: Colors.black.withOpacity(0.1),
+                  transitionDuration: Duration(milliseconds: 300),
+                  context: context,
+                  pageBuilder: (context, anim1, anim2) {
+                    return GestureDetector(child: MyCalender());
+                  },
+                  transitionBuilder: (context, anim1, anim2, child) {
+                    return SlideTransition(
+                      position: Tween(begin: Offset(0, -1), end: Offset(0, 0))
+                          .animate(anim1),
+                      child: child,
+                    );
+                  },
+                ).then((value) {
+                  if (value is Map<String, dynamic>) {
+                    if (value['date'] != null) {
+                      setState(() {
+                        _date = value['date'];
+                      });
+                      getWorkouts();
+                    }
+                  }
+                });
+              },
               title: 'Workout'.trs(context),
             ),
           ),
@@ -133,7 +167,9 @@ class _WorkOutState extends State<WorkOut> {
                                         : 60
                                     : 160,
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage(item.image),fit: BoxFit.cover),
+                                  image: DecorationImage(
+                                      image: NetworkImage(item.image),
+                                      fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(10.0),
                                   gradient: LinearGradient(
                                     begin: Alignment(0.0, 1.0),
@@ -215,6 +251,7 @@ class _WorkOutState extends State<WorkOut> {
                         childAspectRatio: 1),
                     itemBuilder: (context, index) => WorkOutCard(
                           workout: _list[index],
+                          date: _date.toString().split(' ')[0],refresh: () => getWorkouts(),
                         )),
           )
         ],

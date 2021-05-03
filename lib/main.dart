@@ -10,6 +10,7 @@ import 'package:oxygen/views/splash.dart';
 import 'package:provider/provider.dart';
 
 import 'models/settings.dart';
+import 'models/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,7 @@ void main() async {
     Provider(
       create: (context) => SettingsOperation(),
     ),
+    ChangeNotifierProvider(create: (context) => UserFunctions()),
   ], child: MyApp()));
 }
 

@@ -12,6 +12,7 @@ import 'package:oxygen/models/doctor.dart';
 import 'package:oxygen/models/slider.dart';
 import 'package:oxygen/widgets/app_bar.dart';
 import 'package:oxygen/services/Localization/localization.dart';
+import 'package:oxygen/widgets/calender.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Doctors extends StatefulWidget {
@@ -31,14 +32,15 @@ class _DoctorsState extends State<Doctors> {
   getDoctors() async {
     setState(() {
       load = true;
+      _list.clear();
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var request = await post(Constants.apiURl + 'getDoctors', body: {
       'date': '${_date.toString().split(' ')[0]}',
     }, headers: {
       'Accept': 'application/json',
-      // 'Authorization': 'Bearer ${prefs.getString('userToken')}',
-      'Authorization': Constants.token,
+      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+      // 'Authorization': Constants.token,
       'Accept-Language': LangProvider().getLocaleCode(),
     });
     var response = json.decode(request.body);
@@ -97,8 +99,38 @@ class _DoctorsState extends State<Doctors> {
         children: [
           SafeArea(
               child: MyAppBar(
-                date: _date,
-            title: 'Doctor'.trs(context),
+                date: _date,refresh: () {
+                getDoctors();
+              },
+                openCalender: () {
+                  showGeneralDialog(
+                    barrierDismissible: true,
+                    barrierLabel: '',
+                    barrierColor: Colors.black.withOpacity(0.1),
+                    transitionDuration: Duration(milliseconds: 300),
+                    context: context,
+                    pageBuilder: (context, anim1, anim2) {
+                      return GestureDetector(child: MyCalender());
+                    },
+                    transitionBuilder: (context, anim1, anim2, child) {
+                      return SlideTransition(
+                        position: Tween(begin: Offset(0, -1), end: Offset(0, 0))
+                            .animate(anim1),
+                        child: child,
+                      );
+                    },
+                  ).then((value) {
+                    if (value is Map<String, dynamic>) {
+                      if (value['date'] != null) {
+                        setState(() {
+                          _date = value['date'];
+                        });
+                        getDoctors();
+                      }
+                    }
+                  });
+                },
+            title: 'Doctors'.trs(context),
           )),
           _sliderItems.length == 0
               ? Container()

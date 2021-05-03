@@ -5,6 +5,8 @@ import 'package:oxygen/models/doctor.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'dart:math' as math;
 
+import 'package:oxygen/widgets/book_button.dart';
+
 class DoctorCard extends StatelessWidget {
   final int type;
   final DoctorModel doctor;
@@ -37,39 +39,7 @@ class DoctorCard extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            height: 45,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0),
-              ),
-              color: doctor.availableNo == 0
-                  ? Color(0xffc6c6c6)
-                  : Color(0xff67b500),
-            ),
-            child: Center(
-              child: doctor.availableNo == 0
-                  ? Text(
-                      'Class Full'.trs(context),
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: const Color(0xffffffff),
-                        letterSpacing: -0.41000000190734864,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )
-                  : Text(
-                      'Book Now'.trs(context),
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: const Color(0xffffffff),
-                        letterSpacing: -0.41000000190734864,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-            ),
-          ),
+          child: BookButton(),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

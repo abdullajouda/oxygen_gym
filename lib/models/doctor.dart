@@ -1,5 +1,6 @@
 class DoctorModel {
   int id;
+  int weekDay;
   String status;
   String from;
   String to;
@@ -8,9 +9,12 @@ class DoctorModel {
   String doctorName;
   int gender;
   int type;
+  int currentOrders;
+  int inOrders;
 
   DoctorModel(
       {this.id,
+        this.weekDay,
         this.status,
         this.from,
         this.to,
@@ -19,10 +23,12 @@ class DoctorModel {
         this.doctorName,
         this.gender,
         this.type,
-      });
+        this.currentOrders,
+        this.inOrders});
 
   DoctorModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    weekDay = json['week_day'];
     status = json['status'];
     from = json['from'];
     to = json['to'];
@@ -31,11 +37,14 @@ class DoctorModel {
     doctorName = json['doctor_name'];
     gender = json['gender'];
     type = json['type'];
+    currentOrders = json['current_orders'];
+    inOrders = json['in_orders'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['week_day'] = this.weekDay;
     data['status'] = this.status;
     data['from'] = this.from;
     data['to'] = this.to;
@@ -43,6 +52,9 @@ class DoctorModel {
     data['specialization'] = this.specialization;
     data['doctor_name'] = this.doctorName;
     data['gender'] = this.gender;
+    data['type'] = this.type;
+    data['current_orders'] = this.currentOrders;
+    data['in_orders'] = this.inOrders;
     return data;
   }
 }

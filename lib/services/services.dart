@@ -22,14 +22,14 @@ class Services with ChangeNotifier {
   }
 
   setUser({
-      int id, String name, String email, String mobile, String avatar,String address}) async {
+      int id, String name, String email, String mobile, String avatar,int gender}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('id', id);
     prefs.setString('name', name);
     prefs.setString('email', email);
     prefs.setString('mobile', mobile);
     prefs.setString('avatar', avatar);
-    prefs.setString('address', address);
+    prefs.setInt('gender', gender);
     notifyListeners();
   }
 
@@ -37,9 +37,9 @@ class Services with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('userToken');
     prefs.remove('notifications');
-    prefs.remove('userType');
+    prefs.remove('gender');
     prefs.remove('id');
-    prefs.remove('username');
+    prefs.remove('name');
     prefs.remove('email');
     prefs.remove('mobile');
     prefs.remove('avatar');

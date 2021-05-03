@@ -8,13 +8,12 @@ import 'package:oxygen/widgets/app_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MyCalender extends StatefulWidget {
-
   @override
   _MyCalenderState createState() => _MyCalenderState();
 }
 
 class _MyCalenderState extends State<MyCalender> {
-  DateTime _day= DateTime.now();
+  DateTime _day = DateTime.now();
   DateTime _focusedDay;
 
   // List _getEventsForDay(DateTime day) {
@@ -32,7 +31,6 @@ class _MyCalenderState extends State<MyCalender> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: Container(
-              height: size.height * .8,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -46,19 +44,22 @@ class _MyCalenderState extends State<MyCalender> {
                   TableCalendar(
                     firstDay: DateTime.now(),
                     lastDay: DateTime.now().add(Duration(days: 30)),
-                    focusedDay: DateTime.now().add(Duration(days: 1)),locale: LangProvider().getLocaleCode()=='ar'?'ar_SA':'en_US',
+                    focusedDay: DateTime.now().add(Duration(days: 1)),
+                    locale: LangProvider().getLocaleCode() == 'ar'
+                        ? 'ar_SA'
+                        : 'en_US',
                     headerStyle: HeaderStyle(
                         titleTextStyle: TextStyle(color: Colors.transparent),
                         rightChevronVisible: false,
                         formatButtonVisible: false,
                         leftChevronVisible: false),
-                      eventLoader: (day) {
-                        if (day.weekday == DateTime.monday) {
-                          return [];
-                        }
-
+                    eventLoader: (day) {
+                      if (day.weekday == DateTime.monday) {
                         return [];
-                      },
+                      }
+
+                      return [];
+                    },
                     selectedDayPredicate: (day) {
                       return isSameDay(_day, day);
                     },
@@ -66,6 +67,9 @@ class _MyCalenderState extends State<MyCalender> {
                       setState(() {
                         _day = selectedDay;
                         _focusedDay = focusedDay;
+                      });
+                      Navigator.of(context).pop({
+                        'date': _day,
                       });
                     },
                     onPageChanged: (focusedDay) {

@@ -12,6 +12,7 @@ import 'package:oxygen/models/classes.dart';
 import 'package:oxygen/models/slider.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/widgets/app_bar.dart';
+import 'package:oxygen/widgets/calender.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Classes extends StatefulWidget {
@@ -30,14 +31,15 @@ class _ClassesState extends State<Classes> {
   getClasses() async {
     setState(() {
       load = true;
+      _list.clear();
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var request = await post(Constants.apiURl + 'getClasses', body: {
       'date': '${_date.toString().split(' ')[0]}',
     }, headers: {
       'Accept': 'application/json',
-      // 'Authorization': 'Bearer ${prefs.getString('userToken')}',
-      'Authorization': Constants.token,
+      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+      // 'Authorization': Constants.token,
       'Accept-Language': LangProvider().getLocaleCode(),
     });
     var response = json.decode(request.body);
@@ -96,83 +98,118 @@ class _ClassesState extends State<Classes> {
         children: [
           SafeArea(
               child: MyAppBar(
-            date:_date,
+            date: _date,
+            refresh: () {
+              getClasses();
+            },
+            openCalender: () {
+              showGeneralDialog(
+                barrierDismissible: true,
+                barrierLabel: '',
+                barrierColor: Colors.black.withOpacity(0.1),
+                transitionDuration: Duration(milliseconds: 300),
+                context: context,
+                pageBuilder: (context, anim1, anim2) {
+                  return GestureDetector(child: MyCalender());
+                },
+                transitionBuilder: (context, anim1, anim2, child) {
+                  return SlideTransition(
+                    position: Tween(begin: Offset(0, -1), end: Offset(0, 0))
+                        .animate(anim1),
+                    child: child,
+                  );
+                },
+              ).then((value) {
+                if (value is Map<String, dynamic>) {
+                  if (value['date'] != null) {
+                    setState(() {
+                      _date = value['date'];
+                    });
+                    getClasses();
+                  }
+                }
+              });
+            },
             title: 'Classes'.trs(context),
           )),
           _sliderItems.length == 0
               ? Container()
               : ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 60),
-            child: CarouselSlider(
-              options: CarouselOptions(
-                  height: _value != 0
-                      ? 160 - _value >= 60
-                          ? 160 - _value
-                          : 60
-                      : 160,
-                  viewportFraction: 0.9
-                // disableCenter: true,
-                  ),
-              items:_sliderItems
-                  .map(
-                    (item) => ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: 60),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Container(
-                          height: _value != 0
-                              ? 160 - _value >= 60
-                                  ? 160 - _value
-                                  : 60
-                              : 160,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: NetworkImage(item.image),fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(10.0),
-                            gradient: LinearGradient(
-                              begin: Alignment(0.0, 1.0),
-                              end: Alignment(0.0, -1.0),
-                              colors: [
-                                const Color(0x80000000),
-                                const Color(0x00000000)
-                              ],
-                              stops: [0.0, 1.0],
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
+                  constraints: BoxConstraints(minHeight: 60),
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                        height: _value != 0
+                            ? 160 - _value >= 60
+                                ? 160 - _value
+                                : 60
+                            : 160,
+                        viewportFraction: 0.9
+                        // disableCenter: true,
+                        ),
+                    items: _sliderItems
+                        .map(
+                          (item) => ConstrainedBox(
+                            constraints: BoxConstraints(minHeight: 60),
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5, left: 15, right: 15),
-                                    child: SvgPicture.asset(
-                                        'assets/icons/Glyph.svg'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Container(
+                                height: _value != 0
+                                    ? 160 - _value >= 60
+                                        ? 160 - _value
+                                        : 60
+                                    : 160,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(item.image),
+                                      fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  gradient: LinearGradient(
+                                    begin: Alignment(0.0, 1.0),
+                                    end: Alignment(0.0, -1.0),
+                                    colors: [
+                                      const Color(0x80000000),
+                                      const Color(0x00000000)
+                                    ],
+                                    stops: [0.0, 1.0],
                                   ),
-                                  Container(
-                                    width: 200,
-                                    child: Text(
-                                      item.title,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: const Color(0xffffffff),
-                                        letterSpacing: -0.24,
-                                      ),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5, left: 15, right: 15),
+                                          child: SvgPicture.asset(
+                                              'assets/icons/Glyph.svg'),
+                                        ),
+                                        Container(
+                                          width: 200,
+                                          child: Text(
+                                            item.title,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: const Color(0xffffffff),
+                                              letterSpacing: -0.24,
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
+                        )
+                        .toList(),
+                  ),
+                ),
           Row(
             children: [
               Padding(

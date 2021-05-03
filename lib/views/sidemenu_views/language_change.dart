@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:ui';
+import 'package:http/http.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 
 import 'package:flutter/material.dart';
@@ -30,14 +32,14 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     } else {
       lang.setLocale(locale: Locales.en);
     }
-    // await post(Constants.apiURl + 'updateFcmToken', body: {
-    //   'accept_notification': '1',
-    //   'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
-    //   'fcm_token':'111',
-    // }, headers: {
-    //   'Accept': 'application/json',
-    //   'Accept-Language': LangProvider().getLocaleCode(),
-    // });
+    await post(Constants.apiURl + 'updateFcmToken', body: {
+      'accept_notification': '1',
+      'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
+      'fcm_token':'111',
+    }, headers: {
+      'Accept': 'application/json',
+      'Accept-Language': LangProvider().getLocaleCode(),
+    });
     Navigator.popUntil(context, (route) => route.isFirst);
     Navigator.pushReplacement(
         context,

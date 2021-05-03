@@ -9,17 +9,20 @@ import 'calender.dart';
 
 class MyAppBar extends StatelessWidget {
   final String title;
+  final double fontSize;
   final DateTime date;
   final bool isCalender;
+  final VoidCallback openCalender;
+  final VoidCallback refresh;
 
-  MyAppBar({Key key, this.title, @required this.date, this.isCalender = false})
+  MyAppBar({Key key, this.title, @required this.date, this.isCalender = false, this.openCalender, this.refresh, this.fontSize =32})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+      padding: const EdgeInsets.symmetric(vertical: 30),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +43,7 @@ class MyAppBar extends StatelessWidget {
                     Text(
                       'Back'.trs(context),
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 14,
                         color: const Color(0xff67b500),
                         letterSpacing: -0.41000000190734864,
                       ),
@@ -54,7 +57,7 @@ class MyAppBar extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: fontSize,
                       color: const Color(0xff1d3400),
                       letterSpacing: 0.41000000190734864,
                       fontWeight: FontWeight.w700,
@@ -94,26 +97,7 @@ class MyAppBar extends StatelessWidget {
               isCalender
                   ? Container()
                   : TextButton(
-                      onPressed: () {
-                        showGeneralDialog(
-                          barrierDismissible: true,
-                          barrierLabel: '',
-                          barrierColor: Colors.black.withOpacity(0.1),
-                          transitionDuration: Duration(milliseconds: 300),
-                          context: context,
-                          pageBuilder: (context, anim1, anim2) {
-                            return GestureDetector(child: MyCalender());
-                          },
-                          transitionBuilder: (context, anim1, anim2, child) {
-                            return SlideTransition(
-                              position:
-                                  Tween(begin: Offset(0, -1), end: Offset(0, 0))
-                                      .animate(anim1),
-                              child: child,
-                            );
-                          },
-                        ).then((value) => null);
-                      },
+                      onPressed:openCalender,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -124,7 +108,7 @@ class MyAppBar extends StatelessWidget {
                           Text(
                             'Calendar'.trs(context),
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               color: const Color(0x801d3400),
                               fontWeight: FontWeight.w600,
                             ),
@@ -139,7 +123,7 @@ class MyAppBar extends StatelessWidget {
                   ? Container()
                   : IconButton(
                       icon: SvgPicture.asset('assets/icons/reset.svg'),
-                      onPressed: () {},
+                      onPressed:refresh,
                     )
             ],
           )

@@ -6,9 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
 import 'package:oxygen/constants.dart';
 import 'package:oxygen/models/settings.dart';
+import 'package:oxygen/models/user.dart';
 import 'package:oxygen/services/Localization/lang_provider.dart';
+import 'package:oxygen/views/root_page.dart';
 import 'package:oxygen/views/select_branch.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -22,11 +25,31 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   setLandingPage() async {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SelectBranch(),
-        ));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userProv = Provider.of<UserFunctions>(context, listen: false);
+    if(prefs.getString('userToken')!= null){
+      userProv.setUser(User(
+          id: prefs.getInt('id'),
+          imageProfile: prefs.getString('avatar'),
+          name: prefs.getString('name'),
+          mobile: prefs.getString('mobile'),
+          email: prefs.getString('email'),
+          accessToken: prefs.getString('userToken'),
+          gender: prefs.getInt('gender')
+      ));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RootPage(),
+          ));
+    }else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SelectBranch(),
+          ));
+    }
+
   }
 
   getSettings() async {
@@ -62,7 +85,8 @@ class _SplashScreenState extends State<SplashScreen> {
               height: size.height * .9,
               fit: BoxFit.fitHeight,
             ),
-            SvgPicture.asset('assets/images/logo.svg'),
+            SvgPicture.asset('assets/images/logo.svg',height: size.height * .3,
+              fit: BoxFit.fitHeight,),
           ],
         ),
       ),

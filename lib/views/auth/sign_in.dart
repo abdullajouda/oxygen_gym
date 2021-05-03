@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:oxygen/constants.dart';
+import 'package:oxygen/models/user.dart';
+import 'package:oxygen/services/services.dart';
 import 'package:oxygen/views/auth/forgot_password.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/views/root_page.dart';
@@ -13,11 +16,13 @@ import 'package:oxygen/widgets/back_arrow.dart';
 import 'package:oxygen/widgets/back_button.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/main_button.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   final int gender;
 
   const SignIn({Key key, this.gender}) : super(key: key);
+
   @override
   _SignInState createState() => _SignInState();
 }
@@ -28,40 +33,52 @@ class _SignInState extends State<SignIn> {
   bool load = false;
 
   signIn() async {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RootPage(),
-        ));
-    // if (_formKey.currentState.validate()) {
-    //   setState(() {
-    //   load = true;
-    // });
-    //   // SharedPreferences prefs = await SharedPreferences.getInstance();
-    //   var request = await post(Constants.apiURl + 'login', body: {
-    //     'username': name.text,
-    //     'password': password.text,
-    //     'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
-    //     'fcm_token':'111',
-    //     'gender':'${widget.gender}'
-    //   }, headers: {
-    //     'Accept': 'application/json',
-    //     'Accept-Language': LangProvider().getLocaleCode(),
-    //   });
-    //   var response = json.decode(request.body);
-    //   if (response['status'] == true) {
-    //     Navigator.pushReplacement(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => RootPage(),
-    //         ));
-    //   } else {
-    //     Fluttertoast.showToast(msg: response['message']);
-    //     setState(() {
-    //       load = false;
-    //     });
-    //   }
-    // }
+    // Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => RootPage(),
+    //     ));
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        load = true;
+      });
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      var userProv = Provider.of<UserFunctions>(context, listen: false);
+      var request = await post(Constants.apiURl + 'login', body: {
+        'username': name.text,
+        'password': password.text,
+        'device_type': '${Platform.isIOS ? 'ios' : 'android'}',
+        'fcm_token': '555555',
+        'gender': '${widget.gender}'
+      }, headers: {
+        'Accept': 'application/json',
+        'Accept-Language': LangProvider().getLocaleCode(),
+      });
+      var response = json.decode(request.body);
+      if (response['status'] == true) {
+        User user = User.fromJson(response['user']);
+        userProv.setUser(user);
+        Services().setToken(user.accessToken);
+        Services().setUser(
+            id: user.id,
+            avatar: user.imageProfile,
+            name: user.name,
+            mobile: user.mobile,
+            email: user.email,
+            gender: user.gender);
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RootPage(),
+            ));
+      } else {
+        Fluttertoast.showToast(msg: response['message']);
+        setState(() {
+          load = false;
+        });
+      }
+    }
     setState(() {
       load = false;
     });
@@ -120,7 +137,8 @@ class _SignInState extends State<SignIn> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextFormField(
                         controller: name,
-                        validator: (value) => FieldValidator.validate(value, context),
+                        validator: (value) =>
+                            FieldValidator.validate(value, context),
                         decoration: fieldDecoration('Username'.trs(context)),
                       ),
                     ),
@@ -133,7 +151,8 @@ class _SignInState extends State<SignIn> {
                         controller: password,
                         obscureText: true,
                         obscuringCharacter: '*',
-                        validator: (value) => FieldValidator.validate(value, context),
+                        validator: (value) =>
+                            FieldValidator.validate(value, context),
                         decoration: fieldDecoration('Password'.trs(context)),
                       ),
                     ),

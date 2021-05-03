@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class SettingsModel {
   int id;
   String url;
@@ -15,6 +13,9 @@ class SettingsModel {
   String instagram;
   String googlePlus;
   String image;
+  int showWorkout;
+  int showDoctors;
+  int showClasses;
   String createdAt;
   String updatedAt;
   Pages rules;
@@ -40,6 +41,9 @@ class SettingsModel {
         this.instagram,
         this.googlePlus,
         this.image,
+        this.showWorkout,
+        this.showDoctors,
+        this.showClasses,
         this.createdAt,
         this.updatedAt,
         this.rules,
@@ -65,6 +69,9 @@ class SettingsModel {
     instagram = json['instagram'];
     googlePlus = json['google_plus'];
     image = json['image'];
+    showWorkout = json['show_workout'];
+    showDoctors = json['show_doctors'];
+    showClasses = json['show_classes'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     rules = json['rules'] != null ? new Pages.fromJson(json['rules']) : null;
@@ -93,6 +100,9 @@ class SettingsModel {
     data['instagram'] = this.instagram;
     data['google_plus'] = this.googlePlus;
     data['image'] = this.image;
+    data['show_workout'] = this.showWorkout;
+    data['show_doctors'] = this.showDoctors;
+    data['show_classes'] = this.showClasses;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.rules != null) {

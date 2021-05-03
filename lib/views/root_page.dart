@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:oxygen/models/menuitem.dart';
 import 'package:oxygen/models/settings.dart';
+import 'package:oxygen/models/user.dart';
 import 'package:oxygen/views/sidemenu_views/language_change.dart';
 import 'package:oxygen/views/sidemenu_views/reservation_history.dart';
 import 'package:oxygen/views/terms&rules/privacy.dart';
@@ -15,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
 import 'sidemenu_views/change_password.dart';
 import 'sidemenu_views/main_page.dart';
+import 'sidemenu_views/trainers_schedule.dart';
 
 class RootPage extends StatefulWidget {
   final int id;
@@ -35,15 +37,14 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
- _makePhoneCall() async {
-    var set = Provider.of<SettingsOperation>(context,listen: false);
+  _makePhoneCall() async {
+    var set = Provider.of<SettingsOperation>(context, listen: false);
     if (await canLaunch('tel:${set.settingsModel.mobile}')) {
       await launch('tel:${set.settingsModel.mobile}');
     } else {
       throw 'Could not launch ${set.settingsModel.mobile}';
     }
   }
-
 
   int id = 0;
   List<MenuItem> items = [];
@@ -107,6 +108,15 @@ class _RootPageState extends State<RootPage> {
       ),
       MenuItem(
         id: 6,
+        title: "Trainers schedule",
+        isSelected: false,
+        icon: 'assets/icons/calendar-alt.svg',
+        body: TrainersSchedule(
+          openMenu: () => onClick(),
+        ),
+      ),
+      MenuItem(
+        id: 7,
         title: "Call Us",
         isSelected: false,
         icon: 'assets/icons/Icon – Tab Bar - Add Number.svg',
@@ -122,130 +132,137 @@ class _RootPageState extends State<RootPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    var userProv = Provider.of<UserFunctions>(context);
     return Scaffold(
       key: sideMenuKey,
       drawer: Drawer(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: ListView(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 86,
-                      width: 86,
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(1000.0),
-                        // image: DecorationImage(
-                        //   image: const AssetImage(''),
-                        //   fit: BoxFit.cover,
-                        // ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        'Welcome'.trs(context),
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: const Color(0xff1d3400),
-                          letterSpacing: 0.35000000190734865,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      '@momen ezzdeen',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: const Color(0x66000000),
-                        letterSpacing: -0.24,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: buildMenu(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 35, left: 15, right: 15),
-                      child: GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors.transparent,
-                            isScrollControlled: true,
-                            enableDrag: true,
-                            isDismissible: true,
-                            builder: (context) => Logout(),
-                          );
-                        },
-                        child: Container(
-                          child: Row(
-                            children: [
-                              SvgPicture.asset('assets/icons/logout.svg'),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Logout'.trs(context),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: const Color(0xffff4d4d),
-                                  letterSpacing: -0.24,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 86,
+                          width: 86,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(1000.0),
+                            image: DecorationImage(
+                              image: NetworkImage(userProv.user.imageProfile),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/colored_logo.svg',
-                        height: 50,
-                        width: 50,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 2),
-                        child: Text(
-                          'Oxygen Gym',
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            'Welcome'.trs(context),
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: const Color(0xff1d3400),
+                              letterSpacing: 0.35000000190734865,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '@${userProv.user.name}',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: const Color(0x661d3400),
-                            letterSpacing: -0.192,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                            color: const Color(0x66000000),
+                            letterSpacing: -0.24,
                           ),
                         ),
-                      ),
-                      Text(
-                        'All rights reserved © 2021'.trs(context),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: const Color(0x661d3400),
-                          letterSpacing: -0.192,
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: buildMenu(),
                         ),
-                      )
-                    ],
-                  ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 35, left: 15, right: 15),
+                          child: GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                isScrollControlled: true,
+                                enableDrag: true,
+                                isDismissible: true,
+                                builder: (context) => Logout(),
+                              );
+                            },
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset('assets/icons/logout.svg'),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Logout'.trs(context),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: const Color(0xffff4d4d),
+                                      letterSpacing: -0.24,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/colored_logo.svg',
+                            height: 50,
+                            width: 50,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5, bottom: 2),
+                            child: Text(
+                              'Oxygen Gym',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: const Color(0x661d3400),
+                                letterSpacing: -0.192,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'All rights reserved © 2021'.trs(context),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: const Color(0x661d3400),
+                              letterSpacing: -0.192,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -264,6 +281,7 @@ class _RootPageState extends State<RootPage> {
       ),
       itemCount: items.length,
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return GestureDetector(
             onTap: () {
@@ -277,7 +295,7 @@ class _RootPageState extends State<RootPage> {
                 final _state = sideMenuKey.currentState;
                 Navigator.pop(context);
               });
-              if(id == items.last.id){
+              if (id == items.last.id) {
                 _makePhoneCall();
               }
             },

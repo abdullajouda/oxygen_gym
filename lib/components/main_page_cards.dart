@@ -42,7 +42,6 @@ class MainPageCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   height: 30,
-                  width: 119,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(17.0),
                     color: const Color(0x4c000000),
@@ -62,7 +61,8 @@ class MainPageCard extends StatelessWidget {
                           letterSpacing: -0.24,
                           fontWeight: FontWeight.w600,
                         ),
-                      )
+                      ),
+                      SizedBox(width: 20,)
                     ],
                   ),
                 ),
