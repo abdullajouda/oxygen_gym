@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
         MainPageCard(
           page: Doctors(),
           title: 'Doctors',
-          image: 'assets/images/doctor.jpg',
+          image: 'assets/images/doctor.png',
           icon: SvgPicture.asset(
             'assets/icons/Heart.svg',
             width: 13,

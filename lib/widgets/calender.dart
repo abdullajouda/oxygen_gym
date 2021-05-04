@@ -20,9 +20,11 @@ class MyCalender extends StatefulWidget {
 class _MyCalenderState extends State<MyCalender> {
   DateTime _day = DateTime.now();
   DateTime _focusedDay;
-
+  CalendarController _calendarController;
   @override
   void initState() {
+    _calendarController = CalendarController();
+
     if(widget.date!=null)
       _day = widget.date;
     super.initState();
@@ -30,6 +32,11 @@ class _MyCalenderState extends State<MyCalender> {
   //   // return events[day] ?? [];
   // }
 
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +61,13 @@ class _MyCalenderState extends State<MyCalender> {
                       ),
                     ),
                     TableCalendar(
-                      firstDay: DateTime.now(),
-                      lastDay: DateTime.now().add(Duration(days: 30)),
-                      focusedDay: DateTime.now().add(Duration(days: 1)),
+                      calendarController: _calendarController,
+                      startDay: DateTime.now(),
+                      // firstDay:
+                      endDay: DateTime.now().add(Duration(days: 30)),
+                      // lastDay:
+                      initialSelectedDay: _day,
+                      // focusedDay:
                       locale: LangProvider().getLocaleCode() == 'ar'
                           ? 'ar_SA'
                           : 'en_US',
@@ -65,46 +76,72 @@ class _MyCalenderState extends State<MyCalender> {
                           rightChevronVisible: false,
                           formatButtonVisible: false,
                           leftChevronVisible: false),
-                      eventLoader: (day) {
-                        if (day.weekday == DateTime.monday) {
-                          return [];
-                        }
-                        return [];
+                      onDaySelected:(day, events, holidays) {
+                          setState(() {
+                            _day = day;
+                          });
+                          Navigator.of(context).pop({
+                            'date': _day,
+                          });
+                      } ,
+                      onVisibleDaysChanged: (first, last, format) {
+                          _focusedDay = first;
                       },
-                      selectedDayPredicate: (day) {
-                        return isSameDay(_day, day);
-                      },
-                      onDaySelected: (selectedDay, focusedDay) {
-                        setState(() {
-                          _day = selectedDay;
-                          _focusedDay = focusedDay;
-                        });
-                        Navigator.of(context).pop({
-                          'date': _day,
-                        });
-                      },
-                      onPageChanged: (focusedDay) {
-                        _focusedDay = focusedDay;
-                      },
+                      // selectedDayPredicate: (day) {
+                      //   return isSameDay(_day, day);
+                      // },
+                      // onDaySelected: (selectedDay, focusedDay) {
+                      //   setState(() {
+                      //     _day = selectedDay;
+                      //     _focusedDay = focusedDay;
+                      //   });
+                      //   Navigator.of(context).pop({
+                      //     'date': _day,
+                      //   });
+                      // },
+                      // onPageChanged: (focusedDay) {
+                      //   _focusedDay = focusedDay;
+                      // },
+                      daysOfWeekStyle: DaysOfWeekStyle(
+                        weekendStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        weekdayStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
                       calendarStyle: CalendarStyle(
                           outsideDaysVisible: false,
-                          todayTextStyle: TextStyle(
+                          todayColor: Colors.transparent,
+                          weekendStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            letterSpacing: -0.41000000190734864,
+                          ),
+                          weekdayStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            letterSpacing: -0.41000000190734864,
+                          ),
+                          todayStyle: TextStyle(
                             fontSize: 17,
                             color: const Color(0xff67b500),
                             letterSpacing: -0.41000000190734864,
                             fontWeight: FontWeight.w600,
                           ),
-                          todayDecoration: BoxDecoration(),
-                          selectedTextStyle: TextStyle(
+                          contentDecoration: BoxDecoration(),
+                          selectedStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 17,
                             letterSpacing: -0.41000000190734864,
                             fontWeight: FontWeight.w600,
                           ),
-                          selectedDecoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            shape: BoxShape.circle,
-                          )),
+                          selectedColor: kPrimaryColor,
+                          // selectedDecoration: BoxDecoration(
+                          //   color: kPrimaryColor,
+                          //   shape: BoxShape.circle,
+                          // ),
+                      ),
                     )
                   ],
                 ),
