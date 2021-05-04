@@ -73,7 +73,7 @@ class _WorkOutCardState extends State<WorkOutCard> {
                     Text(
                       'Workout'.trs(context),
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 17,
                         color: const Color(0xff67b500),
                         letterSpacing: 0.35000000190734865,
                         fontWeight: FontWeight.w700,

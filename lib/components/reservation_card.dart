@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oxygen/models/history.dart';
 import 'package:oxygen/services/Localization/localization.dart';
+import 'package:oxygen/widgets/delete_reservation_sheet.dart';
 
 import '../constants.dart';
 
 class ReservationCard extends StatelessWidget {
   final int type;
+  final HistoryModel model;
+  final VoidCallback remove;
 
-  const ReservationCard({Key key, this.type}) : super(key: key);
+  const ReservationCard({Key key, this.type, this.model, this.remove}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
+      height: 120,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
-            height: 110,
+            height: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               color: const Color(0xff1d3400),
@@ -46,7 +50,7 @@ class ReservationCard extends StatelessWidget {
             left: LangProvider().getLocaleCode() == 'ar' ? 25 : null,
             child: IconButton(
               icon: SvgPicture.asset('assets/icons/delete.svg'),
-              onPressed: () {},
+              onPressed:remove,
             ),
           ),
           Column(
@@ -63,7 +67,7 @@ class ReservationCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Workout'.trs(context),
+                      '${model.specialization}',
                       style: TextStyle(
                         fontSize: 22,
                         color: const Color(0xffffffff),
@@ -83,35 +87,35 @@ class ReservationCard extends StatelessWidget {
                       color: Color(0xffffffff),
                     ),
                   ),
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color(0xffffffff),
-                        letterSpacing: -0.24,
+                  Row(
+                    children: [
+                      Text(
+                        '${model.from.substring(0, 5)} ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xffffffff),
+                          letterSpacing: -0.24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      children: [
-                        TextSpan(
-                          text: '7:15 ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                      Text(
+                        '- ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xffffffff),
+                          letterSpacing: -0.24,
                         ),
-                        TextSpan(
-                          text: '- ',
-                          style: TextStyle(
-                            color: const Color(0xffbebebe),
-                            fontWeight: FontWeight.w600,
-                          ),
+                      ),
+                      Text(
+                        '${model.to}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xffffffff),
+                          letterSpacing: -0.24,
+                          fontWeight: FontWeight.w600,
                         ),
-                        TextSpan(
-                          text: '8:30 PM',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

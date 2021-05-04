@@ -12,6 +12,7 @@ import 'package:oxygen/views/root_page.dart';
 import 'package:oxygen/views/terms&rules/privacy.dart';
 import 'package:oxygen/views/terms&rules/terms.dart';
 import 'package:oxygen/widgets/back_button.dart';
+import 'package:oxygen/widgets/directions.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/main_button.dart';
 
@@ -82,225 +83,227 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: KeyboardDismiss(
-        child: Column(
-          children: [
-            SafeArea(
-                child: Row(
-              children: [
-                MyBackButton(),
-              ],
-            )),
-            Expanded(
-              child: ListView(
+    return Direction(
+      child: Scaffold(
+        body: KeyboardDismiss(
+          child: Column(
+            children: [
+              SafeArea(
+                  child: Row(
                 children: [
-                  Center(
-                    child: Text(
-                      'Create an Account'.trs(context),
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: const Color(0xff1d3400),
-                        letterSpacing: 0.33764708709716795,
-                        fontWeight: FontWeight.w700,
+                  MyBackButton(),
+                ],
+              )),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Create an Account'.trs(context),
+                        style: TextStyle(
+                          fontSize: 28,
+                          color: const Color(0xff1d3400),
+                          letterSpacing: 0.33764708709716795,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Center(
-                    child: Container(
-                      height: 122,
-                      width: 122,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(1000.0),
-                        color: const Color(0xffebebeb),
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset('assets/icons/add.svg'),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              'Add photo'.trs(context),
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: const Color(0xff8d8d8d),
-                                letterSpacing: 0.07636363792419434,
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Center(
+                      child: Container(
+                        height: 122,
+                        width: 122,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(1000.0),
+                          color: const Color(0xffebebeb),
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SvgPicture.asset('assets/icons/add.svg'),
+                              SizedBox(
+                                height: 8,
                               ),
-                            )
-                          ],
+                              Text(
+                                'Add photo'.trs(context),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: const Color(0xff8d8d8d),
+                                  letterSpacing: 0.07636363792419434,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Select Branch'.trs(context),
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: const Color(0xff1d3400),
-                        letterSpacing: 0.33764708709716795,
-                        fontWeight: FontWeight.w700,
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Select Branch'.trs(context),
+                        style: TextStyle(
+                          fontSize: 28,
+                          color: const Color(0xff1d3400),
+                          letterSpacing: 0.33764708709716795,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        women = false;
-                        men = true;
-                      });
-                    },
-                    child: Padding(
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          women = false;
+                          men = true;
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: _branchContainer(
+                            image: 'assets/icons/Flame.svg',
+                            text: 'Men Branch'.trs(context),
+                            selected: men),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          men = false;
+                          women = true;
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: _branchContainer(
+                            image: 'assets/icons/Heart.svg',
+                            text: 'Women Branch'.trs(context),
+                            selected: women),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 23,
+                    ),
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: _branchContainer(
-                          image: 'assets/icons/Flame.svg',
-                          text: 'Men Branch'.trs(context),
-                          selected: men),
+                      child: TextFormField(
+                        // controller: name,
+                        decoration:
+                            fieldDecoration('Enter Your Member ID'.trs(context)),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        men = false;
-                        women = true;
-                      });
-                    },
-                    child: Padding(
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: _branchContainer(
-                          image: 'assets/icons/Heart.svg',
-                          text: 'Women Branch'.trs(context),
-                          selected: women),
+                      child: TextFormField(
+                        // controller: password,
+                        decoration: fieldDecoration(
+                            'Enter Your WhatsApp Number'.trs(context)),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 23,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: TextFormField(
-                      // controller: name,
-                      decoration:
-                          fieldDecoration('Enter Your Member ID'.trs(context)),
+                    SizedBox(
+                      height: 32,
                     ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: TextFormField(
-                      // controller: password,
-                      decoration: fieldDecoration(
-                          'Enter Your WhatsApp Number'.trs(context)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 32,
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Terms(),
-                                ));
-                          },
-                          child: Text(
-                            'Terms of Service'.trs(context),
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Terms(),
+                                  ));
+                            },
+                            child: Text(
+                              'Terms of Service'.trs(context),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: const Color(0xff67b500),
+                                letterSpacing: -0.07999999523162842,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'and'.trs(context),
                             style: TextStyle(
                               fontSize: 13,
-                              color: const Color(0xff67b500),
+                              color: const Color(0xff8a8a8f),
                               letterSpacing: -0.07999999523162842,
                             ),
                           ),
-                        ),
-                        Text(
-                          'and'.trs(context),
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: const Color(0xff8a8a8f),
-                            letterSpacing: -0.07999999523162842,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Privacy(),
-                                ));
-                          },
-                          child: Text(
-                            'Privacy Policy'.trs(context),
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: const Color(0xff67b500),
-                              letterSpacing: -0.07999999523162842,
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Privacy(),
+                                  ));
+                            },
+                            child: Text(
+                              'Privacy Policy'.trs(context),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: const Color(0xff67b500),
+                                letterSpacing: -0.07999999523162842,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: MainButton(
-                      title: 'Registration'.trs(context),
-                      onTap: () {},
+                    SizedBox(
+                      height: 8,
                     ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Already a member?'.trs(context),
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: const Color(0x66000000),
-                            letterSpacing: -0.41000000190734864,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Log In'.trs(context),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: MainButton(
+                        title: 'Registration'.trs(context),
+                        onTap: () {},
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Already a member?'.trs(context),
                             style: TextStyle(
                               fontSize: 17,
-                              color: const Color(0xff67b500),
+                              color: const Color(0x66000000),
                               letterSpacing: -0.41000000190734864,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Log In'.trs(context),
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: const Color(0xff67b500),
+                                letterSpacing: -0.41000000190734864,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

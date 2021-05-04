@@ -14,6 +14,7 @@ import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/views/root_page.dart';
 import 'package:oxygen/widgets/back_arrow.dart';
 import 'package:oxygen/widgets/back_button.dart';
+import 'package:oxygen/widgets/directions.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/main_button.dart';
 import 'package:provider/provider.dart';
@@ -100,103 +101,105 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: KeyboardDismiss(
-        child: Column(
-          children: [
-            SafeArea(
-                child: Row(
-              children: [
-                MyBackButton(),
-              ],
-            )),
-            Expanded(
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    SvgPicture.asset('assets/images/colored_logo.svg'),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Text(
-                        'Log in to Your Account'.trs(context),
-                        style: TextStyle(
-                          fontSize: 28,
-                          color: const Color(0xff1d3400),
-                          letterSpacing: 0.33764708709716795,
-                          fontWeight: FontWeight.w700,
+    return Direction(
+      child: Scaffold(
+        body: KeyboardDismiss(
+          child: Column(
+            children: [
+              SafeArea(
+                  child: Row(
+                children: [
+                  MyBackButton(),
+                ],
+              )),
+              Expanded(
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      SvgPicture.asset('assets/images/colored_logo.svg'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'Log in to Your Account'.trs(context),
+                          style: TextStyle(
+                            fontSize: 28,
+                            color: const Color(0xff1d3400),
+                            letterSpacing: 0.33764708709716795,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        controller: name,
-                        validator: (value) =>
-                            FieldValidator.validate(value, context),
-                        decoration: fieldDecoration('Username'.trs(context)),
+                      SizedBox(
+                        height: 30,
                       ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        controller: password,
-                        obscureText: true,
-                        obscuringCharacter: '*',
-                        validator: (value) =>
-                            FieldValidator.validate(value, context),
-                        decoration: fieldDecoration('Password'.trs(context)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                          controller: name,
+                          validator: (value) =>
+                              FieldValidator.validate(value, context),
+                          decoration: fieldDecoration('Username'.trs(context)),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: MainButton(
-                        onTap: () {
-                          signIn();
-                        },
-                        load: load,
-                        title: 'Log In'.trs(context),
+                      SizedBox(
+                        height: 8,
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              color: const Color(0xffffffff),
-              child: Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ForgotPassword(),
-                        ));
-                  },
-                  child: Text(
-                    'Forgot your password?'.trs(context),
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: const Color(0xff67b500),
-                      letterSpacing: -0.41000000190734864,
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                          controller: password,
+                          obscureText: true,
+                          obscuringCharacter: '*',
+                          validator: (value) =>
+                              FieldValidator.validate(value, context),
+                          decoration: fieldDecoration('Password'.trs(context)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: MainButton(
+                          onTap: () {
+                            signIn();
+                          },
+                          load: load,
+                          title: 'Log In'.trs(context),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-            )
-          ],
+              Container(
+                width: double.infinity,
+                color: const Color(0xffffffff),
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPassword(),
+                          ));
+                    },
+                    child: Text(
+                      'Forgot your password?'.trs(context),
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: const Color(0xff67b500),
+                        letterSpacing: -0.41000000190734864,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

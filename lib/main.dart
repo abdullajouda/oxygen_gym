@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Oxygen',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData().copyWith(
+      theme: ThemeData(fontFamily: 'TheSans').copyWith(
           pageTransitionsTheme: PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: ZoomPageTransitionsBuilder(),

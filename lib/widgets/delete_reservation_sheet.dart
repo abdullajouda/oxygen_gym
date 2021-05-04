@@ -1,38 +1,49 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:oxygen/constants.dart';
-import 'package:oxygen/main.dart';
-import 'package:oxygen/services/services.dart';
-import 'package:oxygen/widgets/main_button.dart';
+import 'package:oxygen/models/history.dart';
 import 'package:oxygen/services/Localization/localization.dart';
-import 'dart:math' as math;
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'directions.dart';
+import 'main_button.dart';
 
-class Logout extends StatefulWidget {
+class DeleteReservation extends StatefulWidget {
+  final HistoryModel model;
+
+  const DeleteReservation({Key key, this.model}) : super(key: key);
+
   @override
-  _LogoutState createState() => _LogoutState();
+  _DeleteReservationState createState() => _DeleteReservationState();
 }
 
-class _LogoutState extends State<Logout> {
-  logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var request = await get(Constants.apiURl + 'logout', headers: {
-      'Accept': 'application/json',
-      'Accept-Language': LangProvider().getLocaleCode(),
-      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+class _DeleteReservationState extends State<DeleteReservation> {
+  bool load = false;
+
+  delete() async {
+    setState(() {
+      load = true;
     });
-    Services().clearUser();
-    Navigator.popUntil(context, (route) => route.isFirst);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyApp(),
-        ));
-    // var response = json.decode(request.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var request = await get(Constants.apiURl + 'deleteOrder/${widget.model.id}',
+        headers: {
+          'Accept': 'application/json',
+          'Accept-Language': LangProvider().getLocaleCode(),
+          'Authorization': 'Bearer ${prefs.getString('userToken')}',
+        });
+    var response = json.decode(request.body);
+    if (response['status'] == true) {
+      Navigator.pop(context);
+    } else {
+      Fluttertoast.showToast(msg: response['message']);
+    }
+    setState(() {
+      load = false;
+    });
   }
 
   @override
@@ -67,38 +78,19 @@ class _LogoutState extends State<Logout> {
                 ),
               ),
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: LangProvider().getLocaleCode() == 'ar'
-                        ? Matrix4.rotationY(math.pi)
-                        : Matrix4.rotationY(0),
-                    child: SvgPicture.asset(
-                      'assets/icons/logout.svg',
-                      height: 28,
-                      width: 34,
-                    ),
-                  ),
-                ),
-                Text(
-                  'Logout'.trs(context),
-                  style: TextStyle(
-                    fontSize: 40,
-                    color: const Color(0xff1d3400),
-                    letterSpacing: 0.41000000000000003,
-                    fontWeight: FontWeight.w700,
-                  ),
-                )
-              ],
+            Text(
+              'Delete'.trs(context),
+              style: TextStyle(
+                fontSize: 40,
+                color: const Color(0xff1d3400),
+                letterSpacing: 0.41000000000000003,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               child: Text(
-                'Are you sure about logout Oxygen App? Thank you for using us ❤'
-                    .trs(context),
+                'Are you sure you want to delete this reservation?'.trs(context),
                 style: TextStyle(
                   fontSize: 17,
                   color: const Color(0xff000000),
@@ -110,8 +102,9 @@ class _LogoutState extends State<Logout> {
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 50),
               child: MainButton(
                 color: Color(0xffff4d4d),
-                onTap: () => logout(),
-                title: 'Logout'.trs(context),
+                load: load,
+                onTap: () => delete(),
+                title: 'Delete'.trs(context),
               ),
             )
           ],

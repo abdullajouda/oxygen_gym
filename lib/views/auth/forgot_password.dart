@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:oxygen/constants.dart';
 import 'package:oxygen/views/terms&rules/terms.dart';
 import 'package:oxygen/widgets/back_button.dart';
+import 'package:oxygen/widgets/directions.dart';
 import 'package:oxygen/widgets/keyboard_dismesser.dart';
 import 'package:oxygen/widgets/main_button.dart';
 import 'package:oxygen/services/Localization/localization.dart';
@@ -63,96 +64,98 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: KeyboardDismiss(
-        child: Column(
-          children: [
-            SafeArea(
-                child: Row(
-              children: [
-                MyBackButton(),
-              ],
-            )),
-            Expanded(
-                child: Form(
-              key: _formKey,
-              child: ListView(
+    return Direction(
+      child: Scaffold(
+        body: KeyboardDismiss(
+          child: Column(
+            children: [
+              SafeArea(
+                  child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: TextFormField(
-                      controller: email,
-                      validator: (value) =>
-                          FieldValidator.validate(value, context),
-                      decoration: fieldDecoration('Username'.trs(context)),
+                  MyBackButton(),
+                ],
+              )),
+              Expanded(
+                  child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: TextFormField(
+                        controller: email,
+                        validator: (value) =>
+                            FieldValidator.validate(value, context),
+                        decoration: fieldDecoration('Username'.trs(context)),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: MainButton(
-                      load: load,
-                      title: 'Submit'.trs(context),
-                      onTap: () {
-                        forgotPassword();
-                      },
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Center(
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Text(
-                            'By clicking Submit you agree to the following'
-                                .trs(context),
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: const Color(0xff8c8c8c),
-                              letterSpacing: -0.1000000033378601,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Terms(),
-                                  ));
-                            },
-                            child: Text(
-                              'Terms and Conditions'.trs(context),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: MainButton(
+                        load: load,
+                        title: 'Submit'.trs(context),
+                        onTap: () {
+                          forgotPassword();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Center(
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              'By clicking Submit you agree to the following'
+                                  .trs(context),
                               style: TextStyle(
                                 fontSize: 13,
-                                color: const Color(0xff67b500),
-                                decoration: TextDecoration.underline,
+                                color: const Color(0xff8c8c8c),
                                 letterSpacing: -0.1000000033378601,
                               ),
                             ),
-                          ),
-                          Text(
-                            'without reservation'.trs(context),
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: const Color(0xff8c8c8c),
-                              letterSpacing: -0.1000000033378601,
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Terms(),
+                                    ));
+                              },
+                              child: Text(
+                                'Terms and Conditions'.trs(context),
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: const Color(0xff67b500),
+                                  decoration: TextDecoration.underline,
+                                  letterSpacing: -0.1000000033378601,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              'without reservation'.trs(context),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: const Color(0xff8c8c8c),
+                                letterSpacing: -0.1000000033378601,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ))
-          ],
+                  ],
+                ),
+              ))
+            ],
+          ),
         ),
       ),
     );
