@@ -16,6 +16,7 @@ import 'package:oxygen/widgets/directions.dart';
 import 'package:oxygen/widgets/drawer.dart';
 import 'package:oxygen/services/Localization/localization.dart';
 import 'package:oxygen/widgets/loader.dart';
+import 'package:oxygen/widgets/no_booking.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WorkOut extends StatefulWidget {
@@ -38,8 +39,8 @@ class _WorkOutState extends State<WorkOut> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var request = await post(Constants.apiURl + 'getWorkouts', body: {
-      // 'date': '${_date.toString().split(' ')[0]}',
-      'date': '01-05-2021',
+      'date': '${_date.toString().split(' ')[0]}',
+      // 'date': '01-05-2021',
     }, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${prefs.getString('userToken')}',
@@ -99,8 +100,7 @@ class _WorkOutState extends State<WorkOut> {
   @override
   Widget build(BuildContext context) {
     return Direction(
-      child
-          : Scaffold(
+      child: Scaffold(
         body: Column(
           children: [
             SafeArea(
@@ -117,7 +117,10 @@ class _WorkOutState extends State<WorkOut> {
                     transitionDuration: Duration(milliseconds: 300),
                     context: context,
                     pageBuilder: (context, anim1, anim2) {
-                      return GestureDetector(child: MyCalender());
+                      return GestureDetector(
+                          child: MyCalender(
+                        date: _date,
+                      ));
                     },
                     transitionBuilder: (context, anim1, anim2, child) {
                       return SlideTransition(
@@ -189,7 +192,8 @@ class _WorkOutState extends State<WorkOut> {
                                   child: Align(
                                     alignment: Alignment.bottomLeft,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 20),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -244,20 +248,25 @@ class _WorkOutState extends State<WorkOut> {
             Expanded(
               child: load
                   ? Loader()
-                  : GridView.builder(
-                      controller: _controller,
-                      padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-                      shrinkWrap: true,
-                      itemCount: _list.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          crossAxisCount: 2,
-                          childAspectRatio: 1),
-                      itemBuilder: (context, index) => WorkOutCard(
-                            workout: _list[index],
-                            date: _date.toString().split(' ')[0],refresh: () => getWorkouts(),
-                          )),
+                  : _list.length == 0
+                      ? NoBookingFound()
+                      : GridView.builder(
+                          controller: _controller,
+                          padding:
+                              EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                          shrinkWrap: true,
+                          itemCount: _list.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 15,
+                                  crossAxisSpacing: 15,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 1),
+                          itemBuilder: (context, index) => WorkOutCard(
+                                workout: _list[index],
+                                date: _date.toString().split(' ')[0],
+                                refresh: () => getWorkouts(),
+                              )),
             )
           ],
         ),

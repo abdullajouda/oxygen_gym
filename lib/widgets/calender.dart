@@ -10,6 +10,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'directions.dart';
 
 class MyCalender extends StatefulWidget {
+  final DateTime date;
+
+  const MyCalender({Key key, this.date}) : super(key: key);
   @override
   _MyCalenderState createState() => _MyCalenderState();
 }
@@ -18,9 +21,15 @@ class _MyCalenderState extends State<MyCalender> {
   DateTime _day = DateTime.now();
   DateTime _focusedDay;
 
-  // List _getEventsForDay(DateTime day) {
+  @override
+  void initState() {
+    if(widget.date!=null)
+      _day = widget.date;
+    super.initState();
+  } // List _getEventsForDay(DateTime day) {
   //   // return events[day] ?? [];
   // }
+
 
   @override
   Widget build(BuildContext context) {

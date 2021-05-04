@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:oxygen/components/reservation_card.dart';
+import 'package:oxygen/components/trainer_card.dart';
 import 'package:oxygen/constants.dart';
+import 'package:oxygen/models/trainers_timing.dart';
 import 'package:oxygen/widgets/calender.dart';
+import 'package:oxygen/widgets/loader.dart';
 import 'package:oxygen/widgets/menu_button.dart';
 import 'package:oxygen/services/Localization/localization.dart';
-import 'dart:math' as math;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TrainersSchedule extends StatefulWidget {
   final VoidCallback openMenu;
@@ -19,10 +27,42 @@ class TrainersSchedule extends StatefulWidget {
 
 class _TrainersScheduleState extends State<TrainersSchedule> {
   DateTime date;
+  List<Trainer> trainers = [];
+  bool load = false;
+
+  getTrainers() async {
+    setState(() {
+      load = true;
+    });
+    var prefs = await SharedPreferences.getInstance();
+    var request = await post(Constants.apiURl + 'getTrainers', body: {
+      'date': '${date.toString().split(' ')[0]}',
+      // 'date': '2021-05-01',
+    }, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+      // 'Authorization': Constants.token,
+      'Accept-Language': LangProvider().getLocaleCode(),
+    });
+    var response = json.decode(request.body);
+    if (response['status'] == true) {
+      List rs = response['items'];
+      rs.forEach((element) {
+        Trainer wm = Trainer.fromJson(element);
+        trainers.add(wm);
+      });
+    } else {
+      Fluttertoast.showToast(msg: response['message']);
+    }
+    setState(() {
+      load = false;
+    });
+  }
 
   @override
   void initState() {
     date = DateTime.now();
+    getTrainers();
     super.initState();
   }
 
@@ -94,7 +134,7 @@ class _TrainersScheduleState extends State<TrainersSchedule> {
                       transitionDuration: Duration(milliseconds: 300),
                       context: context,
                       pageBuilder: (context, anim1, anim2) {
-                        return GestureDetector(child: MyCalender());
+                        return GestureDetector(child: MyCalender(date: date,));
                       },
                       transitionBuilder: (context, anim1, anim2, child) {
                         return SlideTransition(
@@ -104,7 +144,16 @@ class _TrainersScheduleState extends State<TrainersSchedule> {
                           child: child,
                         );
                       },
-                    ).then((value) => null);
+                    ).then((value) {
+                      if (value is Map<String, dynamic>) {
+                        if (value['date'] != null) {
+                          setState(() {
+                            date = value['date'];
+                          });
+                          getTrainers();
+                        }
+                      }
+                    });
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -129,147 +178,17 @@ class _TrainersScheduleState extends State<TrainersSchedule> {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: 4,
-            itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 10, right: 15, left: 15),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: const Color(0xfff1f1f1),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 10,
-                        right:
-                            LangProvider().getLocaleCode() == 'ar' ? null : 10,
-                        left:
-                            LangProvider().getLocaleCode() == 'ar' ? 10 : null,
-                        child: Transform(
-                          alignment: Alignment.center,
-                          transform: LangProvider().getLocaleCode() == 'ar'
-                              ? Matrix4.rotationY(math.pi)
-                              : Matrix4.rotationY(0),
-                          child: SvgPicture.asset(
-                            'assets/images/running_light.svg',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 48,
-                                  width: 48,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(9999.0, 9999.0)),
-                                    image: DecorationImage(
-                                      image: const AssetImage(''),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    'Coach',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      color: const Color(0xff67b500),
-                                      letterSpacing: 0.35000000190734865,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Iyass Hrazin',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    color: const Color(0xff1d3400),
-                                    letterSpacing: -0.352,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          GridView.builder(
-                            itemCount: 4,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 6,
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 1,
-                              crossAxisSpacing: 1,
-                            ),
-                            itemBuilder: (context, index) => Wrap(
-                              children: [
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/clock.svg',
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '7:15 ',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: const Color(0xff1d3400),
-                                            letterSpacing: -0.24,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        Text(
-                                          '- ',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: const Color(0xff1d3400),
-                                            letterSpacing: -0.24,
-                                          ),
-                                        ),
-                                        Text(
-                                          '8:30 PM',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: const Color(0xff1d3400),
-                                            letterSpacing: -0.24,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )),
-          ),
+          child: load
+              ? Loader()
+              : ListView.builder(
+                  itemCount: trainers.length,
+                  itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 10, right: 15, left: 15),
+                      child: TrainerCard(
+                        trainer: trainers[index],
+                      )),
+                ),
         )
       ],
     );

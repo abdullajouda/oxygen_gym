@@ -66,7 +66,8 @@ class _MainPageState extends State<MainPage> {
             height: 12,
           ),
         ),
-      MainPageCard(
+      if (set.settingsModel.showPersonal == 1)
+        MainPageCard(
         page: PersonalTrainers(),
         title: 'Personal trainer',
         image: 'assets/images/Personal_trainer.png',

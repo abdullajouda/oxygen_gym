@@ -16,6 +16,7 @@ class SettingsModel {
   int showWorkout;
   int showDoctors;
   int showClasses;
+  int showPersonal;
   String createdAt;
   String updatedAt;
   Pages rules;
@@ -44,6 +45,7 @@ class SettingsModel {
         this.showWorkout,
         this.showDoctors,
         this.showClasses,
+        this.showPersonal,
         this.createdAt,
         this.updatedAt,
         this.rules,
@@ -72,6 +74,7 @@ class SettingsModel {
     showWorkout = json['show_workout'];
     showDoctors = json['show_doctors'];
     showClasses = json['show_classes'];
+    showPersonal = json['show_personal'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     rules = json['rules'] != null ? new Pages.fromJson(json['rules']) : null;

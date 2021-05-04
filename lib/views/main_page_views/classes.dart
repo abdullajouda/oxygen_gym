@@ -15,6 +15,7 @@ import 'package:oxygen/widgets/app_bar.dart';
 import 'package:oxygen/widgets/calender.dart';
 import 'package:oxygen/widgets/directions.dart';
 import 'package:oxygen/widgets/loader.dart';
+import 'package:oxygen/widgets/no_booking.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Classes extends StatefulWidget {
@@ -113,7 +114,7 @@ class _ClassesState extends State<Classes> {
                   transitionDuration: Duration(milliseconds: 300),
                   context: context,
                   pageBuilder: (context, anim1, anim2) {
-                    return GestureDetector(child: MyCalender());
+                    return GestureDetector(child: MyCalender(date: _date,));
                   },
                   transitionBuilder: (context, anim1, anim2, child) {
                     return SlideTransition(
@@ -232,6 +233,8 @@ class _ClassesState extends State<Classes> {
             Expanded(
               child: load
                   ? Loader()
+                  : _list.length == 0
+                  ? NoBookingFound()
                   : GridView.builder(
                       controller: _controller,
                       padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
