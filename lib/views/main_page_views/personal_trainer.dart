@@ -36,6 +36,7 @@ class _PersonalTrainersState extends State<PersonalTrainers> {
   getPersonalTrainers() async {
     setState(() {
       load = true;
+      _list.clear();
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var request = await post(Constants.apiURl + 'getPersonalTrainers', body: {
@@ -244,22 +245,19 @@ class _PersonalTrainersState extends State<PersonalTrainers> {
                   ? Loader()
                   : _list.length == 0
                       ? NoBookingFound()
-                      : GridView.builder(
+                      : ListView.builder(
                           controller: _controller,
                           padding:
                               EdgeInsets.only(left: 15, right: 15, bottom: 20),
                           shrinkWrap: true,
                           itemCount: _list.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 15,
-                                  crossAxisSpacing: 15,
-                                  crossAxisCount: 1,
-                                  childAspectRatio: 2.2),
                           itemBuilder: (context, index) => PersonalTrainerCard(
-                                trainer: _list[index],
-                              )),
-            )
+                            trainer: _list[index],
+                            refresh: () => getPersonalTrainers(),
+                            date: _date.toString().split(' ')[0],
+                          ),
+                        ),
+            ),
           ],
         ),
       ),

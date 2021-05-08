@@ -5,6 +5,7 @@ class PersonalTrainersModel {
   String from;
   String to;
   String trainerName;
+  String specialization;
   int gender;
   int currentOrders;
   int inOrders;
@@ -16,6 +17,7 @@ class PersonalTrainersModel {
         this.from,
         this.to,
         this.trainerName,
+        this.specialization,
         this.gender,
         this.currentOrders,
         this.inOrders});
@@ -27,6 +29,7 @@ class PersonalTrainersModel {
     from = json['from'];
     to = json['to'];
     trainerName = json['trainer_name'];
+    specialization = json['specialization'];
     gender = json['gender'];
     currentOrders = json['current_orders'];
     inOrders = json['in_orders'];

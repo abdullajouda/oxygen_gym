@@ -36,8 +36,8 @@ class _WorkOutCardState extends State<WorkOutCard> {
       'type': '1',
     }, headers: {
       'Accept': 'application/json',
-      // 'Authorization': 'Bearer ${prefs.getString('userToken')}',
-      'Authorization': Constants.token,
+      'Authorization': 'Bearer ${prefs.getString('userToken')}',
+      // 'Authorization': Constants.token,
       'Accept-Language': LangProvider().getLocaleCode(),
     });
     var response = json.decode(request.body);
@@ -147,15 +147,17 @@ class _WorkOutCardState extends State<WorkOutCard> {
             ],
           ),
           widget.workout.inOrders == 1
-              ? Text(
-                  'Booked'.trs(context),
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: kPrimaryColor,
-                    letterSpacing: -0.41000000190734864,
-                    fontWeight: FontWeight.w600,
+              ? Center(
+                child: Text(
+                    'Booked'.trs(context),
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: kPrimaryColor,
+                      letterSpacing: -0.41000000190734864,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                )
+              )
               : BookButton(
                   available: widget.workout.availableNo,
                   currentOrders: widget.workout.currentOrders,

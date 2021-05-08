@@ -233,20 +233,20 @@ class _DoctorsState extends State<Doctors> {
                   ? Loader()
                   : _list.length == 0
                   ? NoBookingFound()
-                  : GridView.builder(
+                  : ListView.builder(
                       controller: _controller,
                       padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
                       shrinkWrap: true,
                       itemCount: _list.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          crossAxisCount: 1,
-                          childAspectRatio: 2.2),
-                      itemBuilder: (context, index) => DoctorCard(
-                            doctor: _list[index],
-                            type: _list[index].type,
-                          )),
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: DoctorCard(
+                              doctor: _list[index],
+                              type: _list[index].type,
+                          date: _date.toString().split(' ')[0],
+                          refresh: () => getDoctors(),
+                            ),
+                      )),
             )
           ],
         ),

@@ -20,6 +20,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
+    // getSettings();
     var _duration = new Duration(seconds: 2);
     return Timer(_duration, setLandingPage);
   }
@@ -66,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     getSettings().then((value) => startTime());
-    // startTime();
+    // startTime();q
     super.initState();
   }
 
