@@ -2,6 +2,7 @@ class PersonalTrainersModel {
   int id;
   int weekDay;
   String status;
+  String avatar;
   String from;
   String to;
   String trainerName;
@@ -14,6 +15,7 @@ class PersonalTrainersModel {
       {this.id,
         this.weekDay,
         this.status,
+        this.avatar,
         this.from,
         this.to,
         this.trainerName,
@@ -26,6 +28,7 @@ class PersonalTrainersModel {
     id = json['id'];
     weekDay = json['week_day'];
     status = json['status'];
+    avatar = json['image'];
     from = json['from'];
     to = json['to'];
     trainerName = json['trainer_name'];

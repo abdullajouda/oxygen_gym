@@ -73,6 +73,7 @@ class _PersonalTrainersState extends State<PersonalTrainers> {
       SliderModel slider = SliderModel.fromJson(element);
       _sliderItems.add(slider);
     });
+    setState(() {});
   }
 
   void _scrollListener() {

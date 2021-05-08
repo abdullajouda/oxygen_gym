@@ -8,13 +8,13 @@ class BookButton extends StatefulWidget {
   final VoidCallback book;
   final bool load;
 
-  const BookButton(
-      {Key key,
-      this.available,
-      this.currentOrders,
-      this.book,
-      this.load = false,})
-      : super(key: key);
+  const BookButton({
+    Key key,
+    this.available,
+    this.currentOrders,
+    this.book,
+    this.load = false,
+  }) : super(key: key);
 
   @override
   _BookButtonState createState() => _BookButtonState();
@@ -24,9 +24,14 @@ class _BookButtonState extends State<BookButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (widget.available - widget.currentOrders != 0) widget.book.call();
-      },
+      onTap: widget.available != null
+          ? () {
+              if (widget.available - widget.currentOrders != 0)
+                widget.book.call();
+            }
+          : () {
+              widget.book.call();
+            },
       child: Container(
         height: 45,
         decoration: BoxDecoration(
@@ -34,8 +39,10 @@ class _BookButtonState extends State<BookButton> {
             bottomRight: Radius.circular(10.0),
             bottomLeft: Radius.circular(10.0),
           ),
-          color: widget.available - widget.currentOrders == 0
-              ? Color(0xffc6c6c6)
+          color: widget.available != null
+              ? widget.available - widget.currentOrders == 0
+                  ? Color(0xffc6c6c6)
+                  : Color(0xff67b500)
               : Color(0xff67b500),
         ),
         child: widget.load
@@ -46,16 +53,26 @@ class _BookButtonState extends State<BookButton> {
                 ),
               )
             : Center(
-                child: widget.available - widget.currentOrders == 0
-                    ? Text(
-                        'Class Full'.trs(context),
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: const Color(0xffffffff),
-                          letterSpacing: -0.41000000190734864,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
+                child: widget.available != null
+                    ? widget.available - widget.currentOrders == 0
+                        ? Text(
+                            'Class Full'.trs(context),
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: const Color(0xffffffff),
+                              letterSpacing: -0.41000000190734864,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        : Text(
+                            'Book Now'.trs(context),
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: const Color(0xffffffff),
+                              letterSpacing: -0.41000000190734864,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
                     : Text(
                         'Book Now'.trs(context),
                         style: TextStyle(

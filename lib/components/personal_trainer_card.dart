@@ -90,8 +90,6 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                     ),
                   )
                 : BookButton(
-                    currentOrders: widget.trainer.currentOrders,
-                    available: widget.trainer.inOrders,
                     book: () => bookService(),
                     load: load,
                   ),
@@ -113,10 +111,10 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                   Radius.elliptical(9999.0, 9999.0)),
-                              // image: DecorationImage(
-                              //   image: NetworkImage(trainer.),
-                              //   fit: BoxFit.cover,
-                              // ),
+                              image: DecorationImage(
+                                image: NetworkImage(widget.trainer.avatar),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
