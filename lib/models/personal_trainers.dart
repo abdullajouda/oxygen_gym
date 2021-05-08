@@ -6,9 +6,7 @@ class PersonalTrainersModel {
   String from;
   String to;
   String trainerName;
-  String specialization;
   int gender;
-  int currentOrders;
   int inOrders;
 
   PersonalTrainersModel(
@@ -19,9 +17,7 @@ class PersonalTrainersModel {
         this.from,
         this.to,
         this.trainerName,
-        this.specialization,
         this.gender,
-        this.currentOrders,
         this.inOrders});
 
   PersonalTrainersModel.fromJson(Map<String, dynamic> json) {
@@ -32,9 +28,7 @@ class PersonalTrainersModel {
     from = json['from'];
     to = json['to'];
     trainerName = json['trainer_name'];
-    specialization = json['specialization'];
     gender = json['gender'];
-    currentOrders = json['current_orders'];
     inOrders = json['in_orders'];
   }
 
@@ -47,7 +41,6 @@ class PersonalTrainersModel {
     data['to'] = this.to;
     data['trainer_name'] = this.trainerName;
     data['gender'] = this.gender;
-    data['current_orders'] = this.currentOrders;
     data['in_orders'] = this.inOrders;
     return data;
   }

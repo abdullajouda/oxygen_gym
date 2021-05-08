@@ -122,7 +122,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.trainer.specialization}',
+                              'Coach'.trs(context),
                               style: TextStyle(
                                 fontSize: 22,
                                 color: const Color(0xff67b500),
