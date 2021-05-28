@@ -3,8 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:oxygen/models/menuitem.dart';
 import 'package:oxygen/models/settings.dart';
 import 'package:oxygen/models/user.dart';
+import 'package:oxygen/views/sidemenu_views/contact_us.dart';
 import 'package:oxygen/views/sidemenu_views/language_change.dart';
 import 'package:oxygen/views/sidemenu_views/reservation_history.dart';
+import 'package:oxygen/views/terms&rules/about.dart';
 import 'package:oxygen/views/terms&rules/privacy.dart';
 import 'package:oxygen/views/terms&rules/rules.dart';
 import 'package:oxygen/widgets/directions.dart';
@@ -18,6 +20,7 @@ import '../constants.dart';
 import 'sidemenu_views/change_password.dart';
 import 'sidemenu_views/main_page.dart';
 import 'sidemenu_views/trainers_schedule.dart';
+import 'terms&rules/pricing_policy.dart';
 
 class RootPage extends StatefulWidget {
   final int id;
@@ -100,6 +103,15 @@ class _RootPageState extends State<RootPage> {
       ),
       MenuItem(
         id: 5,
+        title: "Pricing Policy",
+        isSelected: false,
+        icon: 'assets/icons/pricing.svg',
+        body: PricingPolicy(
+          openMenu: () => onClick(),
+        ),
+      ),
+      MenuItem(
+        id: 6,
         title: "App Language",
         isSelected: false,
         icon: 'assets/icons/globe.svg',
@@ -108,7 +120,7 @@ class _RootPageState extends State<RootPage> {
         ),
       ),
       MenuItem(
-        id: 6,
+        id: 7,
         title: "Trainers schedule",
         isSelected: false,
         icon: 'assets/icons/calendar-alt.svg',
@@ -117,7 +129,25 @@ class _RootPageState extends State<RootPage> {
         ),
       ),
       MenuItem(
-        id: 7,
+        id: 8,
+        title: "About Us",
+        isSelected: false,
+        icon: 'assets/icons/about.svg',
+        body: AboutUs(
+          openMenu: () => onClick(),
+        ),
+      ),
+      MenuItem(
+        id: 9,
+        title: "Contact Us",
+        isSelected: false,
+        icon: 'assets/icons/Icon – Tab Bar - Add Number.svg',
+        body: ContactUs(
+          openMenu: () => onClick(),
+        ),
+      ),
+      MenuItem(
+        id: 10,
         title: "Call Us",
         isSelected: false,
         icon: 'assets/icons/Icon – Tab Bar - Add Number.svg',
@@ -185,8 +215,9 @@ class _RootPageState extends State<RootPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20,),
-
+                      SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Padding(
@@ -194,7 +225,8 @@ class _RootPageState extends State<RootPage> {
                             child: buildMenu(),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 35, left: 15, right: 15),
+                            padding:
+                                EdgeInsets.only(top: 35, left: 15, right: 15),
                             child: GestureDetector(
                               onTap: () {
                                 showModalBottomSheet(
@@ -229,8 +261,9 @@ class _RootPageState extends State<RootPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20,),
-
+                      SizedBox(
+                        height: 20,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Column(

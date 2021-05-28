@@ -80,15 +80,27 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
           Align(
             alignment: Alignment.bottomCenter,
             child: widget.trainer.inOrders == 1
-                ? Text(
-                    'Booked'.trs(context),
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: kPrimaryColor,
-                      letterSpacing: -0.41000000190734864,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
+                ?Container(
+              height: 45,
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Booked'.trs(context),
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xffffffff),
+                    letterSpacing: -0.41000000190734864,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            )
                 : BookButton(
                     book: () => bookService(),
                     load: load,

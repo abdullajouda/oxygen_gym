@@ -38,13 +38,13 @@ class _SplashScreenState extends State<SplashScreen> {
           accessToken: prefs.getString('userToken'),
           gender: prefs.getInt('gender')
       ));
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => RootPage(),
           ));
     }else{
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => SelectBranch(),

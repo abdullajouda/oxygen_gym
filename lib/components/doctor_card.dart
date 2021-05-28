@@ -76,15 +76,27 @@ class _DoctorCardState extends State<DoctorCard> {
           Align(
             alignment: Alignment.bottomCenter,
             child: widget.doctor.inOrders == 1
-                ? Text(
+                ? Container(
+              height: 45,
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                ),
+              ),
+              child: Center(
+                child: Text(
                   'Booked'.trs(context),
                   style: TextStyle(
                     fontSize: 17,
-                    color: kPrimaryColor,
+                    color: Color(0xffffffff),
                     letterSpacing: -0.41000000190734864,
                     fontWeight: FontWeight.w600,
                   ),
-                )
+                ),
+              ),
+            )
                 : BookButton(
                     currentOrders: widget.doctor.currentOrders,
                     available: widget.doctor.availableNo,

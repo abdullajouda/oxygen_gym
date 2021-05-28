@@ -13,6 +13,7 @@ class SettingsModel {
   String instagram;
   String googlePlus;
   String image;
+  String pricingImg;
   int showWorkout;
   int showDoctors;
   int showClasses;
@@ -22,7 +23,7 @@ class SettingsModel {
   Pages rules;
   Pages privacy;
   Pages terms;
-  Pages refund;
+  Pages about;
   String title;
   String description;
   String address;
@@ -46,12 +47,13 @@ class SettingsModel {
         this.showDoctors,
         this.showClasses,
         this.showPersonal,
+        this.pricingImg,
         this.createdAt,
         this.updatedAt,
         this.rules,
         this.privacy,
         this.terms,
-        this.refund,
+        this.about,
         this.title,
         this.description,
         this.address});
@@ -75,13 +77,14 @@ class SettingsModel {
     showDoctors = json['show_doctors'];
     showClasses = json['show_classes'];
     showPersonal = json['show_personal'];
+    pricingImg = json['pricing_policy_img'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     rules = json['rules'] != null ? new Pages.fromJson(json['rules']) : null;
     privacy =
     json['privacy'] != null ? new Pages.fromJson(json['privacy']) : null;
     terms = json['terms'] != null ? new Pages.fromJson(json['terms']) : null;
-    refund = json['refund'] != null ? new Pages.fromJson(json['refund']) : null;
+    about = json['about'] != null ? new Pages.fromJson(json['about']) : null;
     title = json['title'];
     description = json['description'];
     address = json['address'];
@@ -117,8 +120,8 @@ class SettingsModel {
     if (this.terms != null) {
       data['terms'] = this.terms.toJson();
     }
-    if (this.refund != null) {
-      data['refund'] = this.refund.toJson();
+    if (this.about != null) {
+      data['about'] = this.about.toJson();
     }
     data['title'] = this.title;
     data['description'] = this.description;
@@ -132,14 +135,16 @@ class Pages {
   String createdAt;
   String title;
   String description;
+  String video;
 
-  Pages({this.id, this.createdAt, this.title, this.description});
+  Pages({this.id, this.createdAt, this.title,this.video, this.description});
 
   Pages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdAt = json['created_at'];
     title = json['title'];
     description = json['description'];
+    video = json['video'];
   }
 
   Map<String, dynamic> toJson() {

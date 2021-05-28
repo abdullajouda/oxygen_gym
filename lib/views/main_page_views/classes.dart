@@ -71,6 +71,7 @@ class _ClassesState extends State<Classes> {
       SliderModel slider = SliderModel.fromJson(element);
       _sliderItems.add(slider);
     });
+    setState(() {});
   }
 
   void _scrollListener() {
@@ -81,6 +82,7 @@ class _ClassesState extends State<Classes> {
 
   @override
   void initState() {
+    getSlider();
     getClasses();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
@@ -147,8 +149,10 @@ class _ClassesState extends State<Classes> {
                                   ? 160 - _value
                                   : 60
                               : 160,
-                          viewportFraction: 0.9
-                          // disableCenter: true,
+                          viewportFraction: 0.9,
+                          enableInfiniteScroll: false
+
+                        // disableCenter: true,
                           ),
                       items: _sliderItems
                           .map(

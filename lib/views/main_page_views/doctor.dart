@@ -72,6 +72,7 @@ class _DoctorsState extends State<Doctors> {
       SliderModel slider = SliderModel.fromJson(element);
       _sliderItems.add(slider);
     });
+    setState(() {});
   }
 
   void _scrollListener() {
@@ -82,6 +83,7 @@ class _DoctorsState extends State<Doctors> {
 
   @override
   void initState() {
+    getSlider();
     getDoctors();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
