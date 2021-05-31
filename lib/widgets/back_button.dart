@@ -13,22 +13,7 @@ class MyBackButton extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Row(
-            children: [
-              BackArrow(),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                'Back'.trs(context),
-                style: TextStyle(
-                  fontSize: 17,
-                  color: const Color(0xff67b500),
-                  letterSpacing: -0.41000000190734864,
-                ),
-              )
-            ],
-          ),
+          child: BackArrow(),
         ),
       ),
     );
