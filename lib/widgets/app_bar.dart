@@ -23,7 +23,7 @@ class MyAppBar extends StatelessWidget {
       this.isCalender = false,
       this.openCalender,
       this.refresh,
-      this.fontSize = 32})
+      this.fontSize = 25})
       : super(key: key);
 
   @override

@@ -141,7 +141,7 @@ class _WorkOutState extends State<WorkOut> {
                   });
                 },
                 title: 'Workout'.trs(context),
-                fontSize: 28,
+                fontSize: 20,
               ),
             ),
             _sliderItems.length == 0

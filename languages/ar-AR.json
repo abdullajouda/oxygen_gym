@@ -22,9 +22,9 @@
   "By clicking Submit you agree to the following": "بالنقر فوق إرسال ، فإنك توافق على ما يلي",
   "Terms and Conditions": "الأحكام والشروط",
   "without reservation": "بدون حجز",
-  "Workout": "ممارسة تمرين",
-  "Doctors": "اطبَّاء",
-  "Classes": "دروس",
+  "Workout": "تمارين المقاومة 'الحديد'",
+  "Doctors": "اخصائي التغذية",
+  "Classes": "حصص لياقة",
   "Welcome Back,": "مرحبا بعودتك،",
   "Last seen": "اخر ظهور",
   "Home": "الرئيسية",
@@ -81,5 +81,7 @@
   "Message": "رسالة",
   "Email": "البريد الالكتروني",
   "Mobile": "الهاتف",
-  "Name": "الاسم"
+  "Name": "الاسم",
+  "Cancel":"إلغاء الحجز",
+  "workout": "تمرين مقاومة"
 }

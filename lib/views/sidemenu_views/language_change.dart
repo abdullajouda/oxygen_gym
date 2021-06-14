@@ -57,7 +57,6 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       arabic = false;
       english = true;
     }
-
     super.initState();
   }
 

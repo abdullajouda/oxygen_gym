@@ -53,7 +53,8 @@ class _PrivacyState extends State<Privacy> {
           children: [
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 child: Row(
                   children: [
                     MenuButton(
@@ -140,24 +141,25 @@ class _PrivacyState extends State<Privacy> {
               ],
             ),
             Expanded(
-                child: ListView(
-              controller: _controller,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: SingleChildScrollView(
+              child: ListView(
+                controller: _controller,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: SingleChildScrollView(
                       child: Html(
-                        data: set
-                            .settingsModel.privacy.description
-                            .replaceAll("\\r\\n", '') ??
+                        data: set.settingsModel.privacy.description
+                                .replaceAll("\\r\\n", '') ??
                             '',
-                      ),),
-                ),
-                SizedBox(
-                  height: 60,
-                ),
-              ],
-            ))
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 60,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -7,9 +7,6 @@ class Constants {
   static const String langKey = 'langKey';
 
   static const String apiURl = 'http://beinlive.co/api/';
-
-
-
 }
 
 

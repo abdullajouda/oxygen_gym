@@ -51,6 +51,29 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
     widget.refresh.call();
   }
 
+  delete() async {
+    setState(() {
+      load = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var request = await get(Constants.apiURl + 'deleteOrder/${widget.trainer.inOrders}',
+        headers: {
+          'Accept': 'application/json',
+          'Accept-Language': LangProvider().getLocaleCode(),
+          'Authorization': 'Bearer ${prefs.getString('userToken')}',
+        });
+    var response = json.decode(request.body);
+    if (response['status'] == true) {
+      widget.refresh.call();
+    } else {
+      Fluttertoast.showToast(msg: response['message']);
+    }
+    setState(() {
+      load = false;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,24 +102,28 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: widget.trainer.inOrders == 1
-                ?Container(
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
+            child:           widget.trainer.inOrders != 0
+
+                ?GestureDetector(
+              onTap: () => delete(),
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  'Booked'.trs(context),
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Color(0xffffffff),
-                    letterSpacing: -0.41000000190734864,
-                    fontWeight: FontWeight.w600,
+                child: Center(
+                  child: Text(
+                    'Cancel'.trs(context),
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xffffffff),
+                      letterSpacing: -0.41000000190734864,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

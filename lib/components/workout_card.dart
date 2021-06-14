@@ -45,10 +45,34 @@ class _WorkOutCardState extends State<WorkOutCard> {
     widget.refresh.call();
   }
 
+
+  delete() async {
+    setState(() {
+      load = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var request = await get(Constants.apiURl + 'deleteOrder/${widget.workout.inOrders}',
+        headers: {
+          'Accept': 'application/json',
+          'Accept-Language': LangProvider().getLocaleCode(),
+          'Authorization': 'Bearer ${prefs.getString('userToken')}',
+        });
+    var response = json.decode(request.body);
+    if (response['status'] == true) {
+      widget.refresh.call();
+    } else {
+      Fluttertoast.showToast(msg: response['message']);
+    }
+    setState(() {
+      load = false;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
+      // height: 160,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: const Color(0x80e4e4e4),
@@ -71,7 +95,7 @@ class _WorkOutCardState extends State<WorkOutCard> {
                       ),
                     ),
                     Text(
-                      'Workout'.trs(context),
+                      'workout'.trs(context),
                       style: TextStyle(
                         fontSize: 17,
                         color: const Color(0xff67b500),
@@ -146,28 +170,31 @@ class _WorkOutCardState extends State<WorkOutCard> {
               ),
             ],
           ),
-          widget.workout.inOrders == 1
-              ? Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0),
+          widget.workout.inOrders != 0
+              ? GestureDetector(
+            onTap: () => delete(),
+                child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Booked'.trs(context),
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Color(0xffffffff),
-                        letterSpacing: -0.41000000190734864,
-                        fontWeight: FontWeight.w600,
+                    child: Center(
+                      child: Text(
+                        'Cancel'.trs(context),
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xffffffff),
+                          letterSpacing: -0.41000000190734864,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
-                )
+              )
               : BookButton(
                   available: widget.workout.availableNo,
                   currentOrders: widget.workout.currentOrders,
